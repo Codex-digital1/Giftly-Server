@@ -16,7 +16,7 @@ app.use(express.json())
 
 
 
-
+ 
 
 mongoose.connect(process.env.MONGO_URI, { dbName: 'Giftly-server-db' })
     .then(() => {
@@ -27,7 +27,7 @@ mongoose.connect(process.env.MONGO_URI, { dbName: 'Giftly-server-db' })
 
 
     
-app.use("/server", router)
+app.use("/", router)
 
 
 app.get("/", async(req,res)=>{
