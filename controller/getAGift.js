@@ -3,7 +3,7 @@ const giftModel = require("../model/giftModelSchema")
 const getAGift = async (req, res) => {
     try {
 
-        const getData = await giftModel.findById(req.params.id);
+        const getData = await giftModel.findById(req?.params.id);
         // console.log("get ", getData)
         res.status(200).json({
             data: getData,
