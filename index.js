@@ -13,7 +13,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
 
-let users = {}; // Store users here
+let users = [{}]; // Store users here
 
 // Middleware
 app.use(cors({
