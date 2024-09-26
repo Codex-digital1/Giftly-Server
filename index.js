@@ -26,18 +26,14 @@ mongoose.connect(process.env.MONGO_URI, { dbName: 'Giftly-server-db' })
     })
     .catch((err) => console.log(err));
 
+    
 // Routes
 app.use("/", router);
-
-// Set up Socket.io
 setupSocket(server);
 
-// Default route for server test
 app.get("/", async (req, res) => {
     res.send("Giftly db is connected");
 });
-
-// Start server
 server.listen(port, () => {
     console.log(`Giftly is running on port ${port}`);
 });

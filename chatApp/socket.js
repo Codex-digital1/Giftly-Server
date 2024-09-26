@@ -7,12 +7,12 @@ const setupSocket = (server) => {
     const io = socketIO(server);
 
     io.on("connection", (socket) => {
-        console.log("New Connection", socket.id);
+        // console.log("New Connection", socket.id);
 
         // When a user joins
         socket.on('joined', ({ userInfo }) => {
             users[socket.id] = userInfo;
-            console.log(`${userInfo} has joined with ID: ${socket.id}`);
+            // console.log(`${userInfo} has joined with ID: ${socket.id}`);
 
             // Notify other users
             socket.broadcast.emit('userJoined', { userInfo: "Admin", message: `${users[socket.id]} has joined` });
@@ -23,7 +23,7 @@ const setupSocket = (server) => {
 
         // When a user sends a message
         socket.on('message', async ({ message, id, timestamp }) => {
-            console.log(`Message from ${users[id]}: ${message}`);
+            // console.log(`Message from ${users[id]}: ${message}`);
             
             // Save the message with timestamp to MongoDB
             const newMessage = new Message({ userInfo: users[id], message, timestamp });
@@ -40,7 +40,7 @@ const setupSocket = (server) => {
 
         // When a user disconnects
         socket.on('disconnect', () => {
-            console.log(`${users[socket.id]} with ID ${socket.id} has left`);
+            // console.log(`${users[socket.id]} with ID ${socket.id} has left`);
             
             // Notify others that the user has left
             socket.broadcast.emit('leave', { userInfo: "Admin", message: `${users[socket.id]} has left` });
