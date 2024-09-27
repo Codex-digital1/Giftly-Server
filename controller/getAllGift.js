@@ -2,7 +2,7 @@ const giftModel = require("../model/giftModelSchema")
 
 const getAllGift = async (req, res) => {
     const { category, priceMin, priceMax, rating, availability, sortBy, search } = req.query;
-    console.log(req.query);
+    // console.log(req.query);
        // Create a filter object
        let filter = {};
 
@@ -37,9 +37,9 @@ const getAllGift = async (req, res) => {
     try {
 
         // Query the database with filters
-        console.log(filter);
+        // console.log(filter);
     let gifts = await giftModel.find(filter);
-    console.log(gifts.length);
+    // console.log(gifts.length);
 
     // Sorting (e.g., sort by price, rating, etc.)
     if (sortBy === 'priceAsc') {
