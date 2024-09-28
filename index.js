@@ -7,7 +7,8 @@ const router = require("./router/router");
 const port = process.env.PORT || 3000;
 
 const http = require("http");
-const setupSocket = require("./chatApp/socket");
+const SocketIo = require("./chatApp/SocketIo");
+// const setupSocket = require("./chatApp/socket");
 
 const app = express();
 const server = http.createServer(app);
@@ -28,7 +29,8 @@ mongoose.connect(process.env.MONGO_URI, { dbName: 'Giftly-server-db' })
     
 // Routes
 app.use("/", router);
-setupSocket(server);
+// setupSocket(server);
+SocketIo(server);
 
 app.get("/", async (req, res) => {
     res.send("Giftly db is connected");
