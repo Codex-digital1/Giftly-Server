@@ -42,6 +42,12 @@ const SocketIo = (server) => {
                 const newMessage = new Chat(msg);
                 await newMessage.save();
                 io.to(room).emit('message', msg); // Send message only to the room
+
+                // Send notification to the receiver
+                socket.broadcast.to(room).emit('notification', {
+                    message: `New message from ${msg.senderUsername}`,
+                    receiver: msg.receiverUsername,
+                });
             } catch (err) {
                 console.log(err);
             }
