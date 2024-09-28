@@ -1,4 +1,5 @@
 const express = require("express");
+const payment = require("../controller/payment")
 const router = express.Router();
 
 const uploadGift = require("../controller/uploadGift");
@@ -17,5 +18,4 @@ router.get("/getAllGift", getAllGift);
 router.post("/payment", payment);  
 router.get("/:id", getAGift); 
 
-const payment = require("../controller/payment")
 module.exports = router;

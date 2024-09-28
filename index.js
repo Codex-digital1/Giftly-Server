@@ -33,9 +33,6 @@ setupSocket(server);
 app.get("/", async (req, res) => {
     res.send("Giftly db is connected");
 });
-server.listen(port, () => {
-    console.log(`Giftly is running on port ${port}`);
-});
 
 // Define the success route
 app.post('/payment/success/:tranId', async (req, res) => {
@@ -46,6 +43,7 @@ app.post('/payment/success/:tranId', async (req, res) => {
     // res.send({ message: `Payment successful for transaction ID: ${tranId}` });
 });
 
-// app.listen(port, () => {
-//     console.log(`Giftly is running on this ${port} port`)
-// })
+server.listen(port, () => {
+    console.log(`Giftly is running on port ${port}`);
+});
+
