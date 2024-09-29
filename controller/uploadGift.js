@@ -1,13 +1,7 @@
 const giftModel = require("../model/giftModelSchema")
 
 const uploadGift = async (req, res) => {
-    try {
-        // const UserId = req.userId
-
-        // if(!uploadPermission(UserId)){
-        //     throw new Error("Permission denied")
-        // }
-        
+    try {   
         const uploadGift = new giftModel(req?.body)
         const saveGift = await uploadGift.save()
 
