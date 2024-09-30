@@ -5,10 +5,9 @@ require("dotenv").config()
 const mongoose = require("mongoose");
 const router = require("./router/router");
 const port = process.env.PORT || 3000;
-const socketIO = require('socket.io');
-
 const http = require("http");
 const SocketIo = require("./chatApp/SocketIo");
+// const socketIO = require('socket.io');
 // const setupSocket = require("./chatApp/socket");
 
 const app = express();
@@ -18,44 +17,45 @@ app.use(cors({
     credentials: true,
 }));
 app.use(express.json());
-const Notification=require('./model/NotificationSchema')
 const server = http.createServer(app);
-const io = socketIO(server);
+// const Notification=require('./model/NotificationSchema')
+// const io = socketIO(server);
 // When a client connects to the socket
-io.on('connection', (socket) => {
-    console.log('New client connected: ', socket.id);
+// io.on('connection', (socket) => {
+//     console.log('New client connected: ', socket.id);
   
-    // Join a room based on the user ID
-    socket.on('join', (userId) => {
-      socket.join(userId);  // This user will now receive messages sent to this room
-      console.log(`User ${userId} joined room`);
-    });
-  // When the client disconnects
-  socket.on('disconnect', () => {
-    console.log('Client disconnected');
-  });
-});
-// Function to send a notification to a specific user
-const sendNotification = async (email, message) => {
-    io.to(email).emit('newNotification', message);  // Send real-time notification
-  };
-  // Example route that triggers a notification
-app.post('/api/notify', async (req, res) => {
-    const { userId, message } = req.body;
+//     // Join a room based on the user ID
+//     socket.on('join', (userId) => {
+//       socket.join(userId);  // This user will now receive messages sent to this room
+//       console.log(`User ${userId} joined room`);
+//     });
+//   // When the client disconnects
+//   socket.on('disconnect', () => {
+//     console.log('Client disconnected');
+//   });
+// });
+// // Function to send a notification to a specific user
+// const sendNotification = async (email, message) => {
+//     io.to(email).emit('newNotification', message);  // Send real-time notification
+//   };
+//   // Example route that triggers a notification
+// app.post('/api/notify', async (req, res) => {
+//     const { userId, message } = req.body;
   
-    // Save notification in the database (optional)
-    const notification = new Notification({
-      userId,
-      message,
-      isRead: false,
-    });
-    await notification.save();
+//     // Save notification in the database (optional)
+//     const notification = new Notification({
+//       userId,
+//       message,
+//       isRead: false,
+//     });
+//     await notification.save();
   
-    // Send real-time notification
-    sendNotification(userId, message);
+//     // Send real-time notification
+//     sendNotification(userId, message);
   
-    res.status(200).send('Notification sent');
-  });
+//     res.status(200).send('Notification sent');
+//   });
+
 mongoose.connect(process.env.MONGO_URI, { dbName: 'Giftly-server-db' })
     .then(() => {
         console.log("Giftly db is connected");
