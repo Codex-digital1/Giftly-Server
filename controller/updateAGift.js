@@ -1,15 +1,14 @@
 const giftModel = require("../model/giftModelSchema")
 
-const getAGift = async (req, res) => {
+const updateAGift = async (req, res) => {
     try {
+        const updatedGift = await giftModel.findByIdAndUpdate(req.params.giftId, req.body, { new: true });
 
-        const getData = await giftModel.findById(req.params.giftId);
-        // console.log("get ", getData)
         res.status(200).json({
-            data: getData,
             error: false,
             success: true,
-            message: "Get a Gift  successfully"
+            message: 'Gift updated successfully',
+            data: updatedGift 
         })
     } catch (error) {
         res.status(400).json({
@@ -20,4 +19,4 @@ const getAGift = async (req, res) => {
     }
 }
 
-module.exports = getAGift;
+module.exports = updateAGift;
