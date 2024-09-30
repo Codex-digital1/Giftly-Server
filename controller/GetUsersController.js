@@ -1,16 +1,16 @@
-const User = require("../model/UserModel");
+const User= require("../model/userSchema")
 
-exports.createUser = async (req, res) => {
-    try {
-        const { userName, email, role, profileImage } = req.body;
-        console.log(req.body)
-        const newUser = new User({ userName, email, role, profileImage  });
-        await newUser.save();
-        res.status(201).json(newUser);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-};
+// exports.createUser = async (req, res) => {
+//     try {
+//         const { userName, email, role, profileImage } = req.body;
+//         console.log(req.body)
+//         const newUser = new User({ userName, email, role, profileImage  });
+//         await newUser.save();
+//         res.status(201).json(newUser);
+//     } catch (error) {
+//         res.status(400).json({ error: error.message });
+//     }
+// };
 
 exports.getUsers = async (req, res) => {
     try {
@@ -28,7 +28,7 @@ exports.getSingleUser = async (req, res) => {
     try {
         const email = req.params.email;  // Get the email from URL parameters
         const user = await User.findOne({ email });  // Use `findOne` to get a single user
-        
+          console.log(user, "current")
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
