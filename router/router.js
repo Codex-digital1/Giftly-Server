@@ -10,9 +10,12 @@ const deleteAGift = require("../controller/deleteAGift");
 const userCreate = require("../controller/userCreate");
 const {getAllMessage } = require("../controller/chatController");
 const {getUsers, getSingleUser, updateReceiver, getReceiverData } = require("../controller/GetUsersController");
+const getUser = require('../controller/getUser')
+
 
 // Routes
-router.post("/users", userCreate)
+router.post("/users", userCreate);
+router.get('/getUser/:email', getUser)
 router.post("/uploadGift", uploadGift);
 router.get("/getAllGift", getAllGift);
 
