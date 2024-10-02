@@ -9,7 +9,7 @@ const updateAGift = require("../controller/updateAGift");
 const deleteAGift = require("../controller/deleteAGift");
 const userCreate = require("../controller/userCreate");
 const {getAllMessage } = require("../controller/chatController");
-const {getUsers, getSingleUser } = require("../controller/GetUsersController");
+const {getUsers, getSingleUser, updateReceiver, getReceiverData } = require("../controller/GetUsersController");
 
 // Routes
 router.post("/users", userCreate)
@@ -27,5 +27,7 @@ router.delete("/:giftId", deleteAGift)
 router.get("/chat/getChats", getAllMessage)
 router.get("/user/getUsers", getUsers)
 router.get("/user/getUser/:email", getSingleUser)
+router.put("/user/updateReceiver/:id", updateReceiver)
+router.get("/user/getReceiver/:receiverName", getReceiverData)
 
 module.exports = router;

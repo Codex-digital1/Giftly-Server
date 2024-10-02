@@ -28,6 +28,7 @@ const SocketIo = (server) => {
     io.on("connection", (socket) => {
         console.log("connected");
 
+
         // Join room and load previous chat messages
         socket.on('joinRoom', ({ sender, receiver }) => {
             const room = [sender, receiver].sort().join('-'); // Room ID based on sender and receiver
@@ -35,22 +36,23 @@ const SocketIo = (server) => {
             loadMessages(socket, sender, receiver); // Load messages for the room
         });
 
+
         // Handle new messages
         socket.on('newMessage', async (msg) => {
             console.log("message is coming", msg.image);  // Check if senderUsername and receiverUsername are correctly logged
-        
+
             const room = [msg.senderUsername, msg.receiverUsername].sort().join('-');  // Use same room ID
             try {
                 const newMessage = new Chat({
                     senderUsername: msg.senderUsername,   // Make sure to use senderUsername field
                     receiverUsername: msg.receiverUsername, // Make sure to use receiverUsername field
-                    image: msg.image, 
+                    image: msg.image,
                     message: msg.message,
                     profileImage: msg.profileImage,
                 });
                 await newMessage.save();
                 io.to(room).emit('message', msg);  // Send message only to the room
-        
+
                 // Send notification to the receiver
                 socket.broadcast.to(room).emit('notification', {
                     message: `New message from ${msg.senderUsername}`,
