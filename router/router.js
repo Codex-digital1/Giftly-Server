@@ -9,17 +9,27 @@ const updateAGift = require("../controller/updateAGift");
 const deleteAGift = require("../controller/deleteAGift");
 const userCreate = require("../controller/userCreate");
 const getAUser = require('../controller/getAUser')
-
+const {getAllMessage } = require("../controller/chatController");
+const {getUsers, getSingleUser, updateReceiver, getReceiverData } = require("../controller/GetUsersController");
 
 // Routes
 router.post("/users", userCreate);
 router.get('/getAUser/:email', getAUser)
 router.post("/uploadGift", uploadGift);
 router.get("/getAllGift", getAllGift);
+
+// user
 router.get("/:giftId", getAGift) 
-router.post("/payment", order);  
+router.post("/order", order);  
 router.get("/:id", getAGift); 
 router.put("/:giftId", updateAGift) 
 router.delete("/:giftId", deleteAGift) 
+
+// chat feature
+router.get("/chat/getChats", getAllMessage)
+router.get("/user/getUsers", getUsers)
+router.get("/user/getUser/:email", getSingleUser)
+router.put("/user/updateReceiver/:id", updateReceiver)
+router.get("/user/getReceiver/:receiverName", getReceiverData)
 
 module.exports = router;

@@ -2,7 +2,8 @@ const User= require("../model/userSchema")
 
 const userCreate = async (req, res) => {
     try {
-        const { name, email, phoneNumber, address,profileImage } = req.body;
+        const { name, email, phoneNumber, address,profileImage,chat } = req.body;
+        console.log(chat)
         // console.log(req.body);
         if (!email || !name ) {
             return res.status(400).json({ message: 'All fields are required' });
@@ -27,11 +28,15 @@ const userCreate = async (req, res) => {
             zipCode: address.zipCode,
             country: address.country,
           },
+          chat: {
+            sender:chat.sender,
+            receiver: chat.receiver,
+          },
         });
     // console.log(user);
         // Save the user to the database
         const savedUser = await user.save();
-    console.log(33,savedUser);
+    // console.log(33,savedUser);
         // Respond with the saved user (excluding password)
         res.status(201).json({
           success: true,

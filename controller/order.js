@@ -49,6 +49,7 @@ console.log(singleProduct);
         ship_country: 'Bangladesh',
     };
 
+    console.log(data);
 
     const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
     sslcz.init(data).then(async (apiResponse) => {
@@ -67,10 +68,10 @@ console.log(singleProduct);
             payment_status: 'Pending',
             order_status: 'Pending',
         });
-        // console.log(newOrder, 'inside the payment ');
+        console.log(newOrder, 'inside the payment ');
 
         const data = await newOrder.save();
-        console.log(data, 'mongodb te save hoise ');
+        console.log(data,);
 
         res.send({ url: GatewayPageURL });
         console.log('Redirecting to:', GatewayPageURL);
