@@ -3,7 +3,7 @@ const User= require("../model/userSchema")
 const userCreate = async (req, res) => {
     try {
         const { name, email, phoneNumber, address,profileImage } = req.body;
-        console.log(req.body);
+        // console.log(req.body);
         if (!email || !name ) {
             return res.status(400).json({ message: 'All fields are required' });
           }
@@ -13,7 +13,7 @@ const userCreate = async (req, res) => {
             return res.status(400).json({ message: 'User already exists' });
         }
         
-        console.log(16,userExists);
+        // console.log(16,userExists);
         // Create a new user object
         const user = new User({
           name,
@@ -28,7 +28,7 @@ const userCreate = async (req, res) => {
             country: address.country,
           },
         });
-    console.log(user);
+    // console.log(user);
         // Save the user to the database
         const savedUser = await user.save();
     console.log(33,savedUser);
