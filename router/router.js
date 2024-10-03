@@ -4,20 +4,20 @@ const router = express.Router();
 const uploadGift = require("../controller/uploadGift");
 const getAllGift = require("../controller/getAllGift");
 const getAGift = require("../controller/getAGift");
-const payment = require("../controller/payment")
+const order = require("../controller/order")
 const updateAGift = require("../controller/updateAGift");
 const deleteAGift = require("../controller/deleteAGift");
 const userCreate = require("../controller/userCreate");
-const getUser = require('../controller/getUser')
+const getAUser = require('../controller/getAUser')
 
 
 // Routes
 router.post("/users", userCreate);
-router.get('/getUser/:email', getUser)
+router.get('/getAUser/:email', getAUser)
 router.post("/uploadGift", uploadGift);
 router.get("/getAllGift", getAllGift);
 router.get("/:giftId", getAGift) 
-router.post("/payment", payment);  
+router.post("/payment", order);  
 router.get("/:id", getAGift); 
 router.put("/:giftId", updateAGift) 
 router.delete("/:giftId", deleteAGift) 
