@@ -17,7 +17,7 @@ router.get('/getAUser/:email', getAUser)
 router.post("/uploadGift", uploadGift);
 router.get("/getAllGift", getAllGift);
 router.get("/:giftId", getAGift) 
-router.post("/payment", order);  
+router.post("/order", order);  
 router.get("/:id", getAGift); 
 router.put("/:giftId", updateAGift) 
 router.delete("/:giftId", deleteAGift) 
