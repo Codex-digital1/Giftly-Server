@@ -4,51 +4,66 @@ require("dotenv").config()
 const http = require('http');
 
 const mongoose = require("mongoose");
-const router = require("./router/router");
-const port = process.env.PORT || 3000;
 const socketIO = require('socket.io');
-
+const router = require("./router/router");
 const app = express()
+const server = http.createServer(app);
+const port = process.env.PORT || 3000;
+
 app.use(cors({
     origin: "http://localhost:5173",
     credentials: true
 }))
-app.use(express.json())
-const Notification=require('./model/NotificationSchema')
-const server = http.createServer(app);
-const io = socketIO(server);
-// When a client connects to the socket
-io.on('connection', (socket) => {
-    console.log('New client connected: ', socket.id);
-  
-    // Join a room based on the user ID
-    socket.on('join', (userId) => {
-      socket.join(userId);  // This user will now receive messages sent to this room
-      console.log(`User ${userId} joined room`);
-    });
-  // When the client disconnects
-  socket.on('disconnect', () => {
-    console.log('Client disconnected');
+const io = socketIO(server, {
+    cors: {
+      origin: '*', // Allow cross-origin connections if you're testing with different domains
+      methods: ['GET', 'POST']
+    } 
   });
+app.use(express.json()) 
+const Notification=require('./model/NotificationSchema')
+
+
+
+
+const notifications = [
+    { message: 'New gift items are available!', timestamp: Date.now() },
+    { message: 'Flash sale on selected items!', timestamp: Date.now() },
+];
+
+// Initialize socket.io
+io.on('connection', (socket) => {
+    console.log('User connected: ', socket.id);
+
+    // Emit a real-time notification when the user connects
+    socket.emit('initialNotifications', notifications);
+
+    // Emit notifications on some custom event (e.g., new gift added)
+    // setInterval(() => {
+    //     const newNotification = { message: 'New gifts just arrived!', timestamp: Date.now() };
+    //     io.emit('newNotification', newNotification);
+    // }, 60000);  // Sends a notification every minute (for demo purposes)
+
+    // Handle client disconnection
+    socket.on('disconnect', () => {
+        console.log('User disconnected: ', socket.id);
+    });
 });
-// Function to send a notification to a specific user
-const sendNotification = async (email, message) => {
-    io.to(email).emit('newNotification', message);  // Send real-time notification
-  };
   // Example route that triggers a notification
 app.post('/api/notify', async (req, res) => {
-    const { userId, message } = req.body;
+    const { email, message } = req.body;
+    console.log(req.body);
   
     // Save notification in the database (optional)
     const notification = new Notification({
-      userId,
+      email,
       message,
       isRead: false,
     });
     await notification.save();
   
     // Send real-time notification
-    sendNotification(userId, message);
+    sendNotification(email, message);
   
     res.status(200).send('Notification sent');
   });
@@ -68,12 +83,12 @@ app.post('/payment/success/:tranId', async (req, res) => {
     // Handle the success logic
     res.redirect(`http://localhost:5173/payment/success/${req.params.tranId}`)
     // res.send({ message: `Payment successful for transaction ID: ${tranId}` });
-});
+}); 
 
 
 app.get("/", async(req,res)=>{
     res.send(" Giftly db is connected")
 })
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Giftly is running on this ${port} port`)
 })
