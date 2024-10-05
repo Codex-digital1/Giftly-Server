@@ -11,19 +11,21 @@ const userCreate = require("../controller/userCreate");
 const getAUser = require('../controller/getAUser')
 const {getAllMessage } = require("../controller/chatController");
 const {getUsers, getSingleUser, updateReceiver, getReceiverData } = require("../controller/GetUsersController");
+const { orderManage } = require("../controller/orderManageControllers");
 
 // Routes
 router.post("/users", userCreate);
-router.get('/getAUser/:email', getAUser)
+router.get("/getAUser/:email", getAUser);
 router.post("/uploadGift", uploadGift);
 router.get("/getAllGift", getAllGift);
 
 // user
-router.get("/:giftId", getAGift) 
-router.post("/order", order);  
-router.get("/:id", getAGift); 
-router.put("/:giftId", updateAGift) 
-router.delete("/:giftId", deleteAGift) 
+router.get("/all-orders", orderManage);
+router.get("/:giftId", getAGift);
+router.post("/order", order);
+router.get("/:id", getAGift);
+router.put("/:giftId", updateAGift);
+router.delete("/:giftId", deleteAGift);
 
 // chat feature
 router.get("/chat/getChats", getAllMessage)
