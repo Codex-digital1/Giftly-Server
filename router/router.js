@@ -11,7 +11,11 @@ const userCreate = require("../controller/userCreate");
 const getAUser = require('../controller/getAUser')
 const {getAllMessage } = require("../controller/chatController");
 const {getUsers, getSingleUser, updateReceiver, getReceiverData } = require("../controller/GetUsersController");
-const { orderManage } = require("../controller/orderManageControllers");
+const {
+  orderManage,
+  updateOrderStatus,
+  getSpecificUserOrdersList,
+} = require("../controller/orderManageControllers");
 
 // Routes
 router.post("/users", userCreate);
@@ -21,6 +25,8 @@ router.get("/getAllGift", getAllGift);
 
 // user
 router.get("/all-orders", orderManage);
+router.get("/user-orders/:email", getSpecificUserOrdersList);
+router.patch("/order-status-update/:id", updateOrderStatus);
 router.get("/:giftId", getAGift);
 router.post("/order", order);
 router.get("/:id", getAGift);
