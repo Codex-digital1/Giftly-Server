@@ -1,5 +1,6 @@
 const SSLCommerzPayment = require("sslcommerz-lts");
 const mongoose = require("mongoose");
+require('dotenv').config();
 const giftModel = require("../model/giftModelSchema");
 const orderModel = require("../model/orderModelSchema");
 const store_id = process.env.STORE_ID;
@@ -7,6 +8,8 @@ const store_passwd = process.env.STORE_PASS;
 const is_live = false; // true for live, false for sandbox
 
 const order = async (req, res) => {
+    const localORProduction = process.env.VITE_SUCCESS_URL || 'http://localhost:3000';  
+
     const user = req.body;
  
     // Get product by ID for better security
@@ -21,8 +24,9 @@ console.log(singleProduct);
     const data = {
         total_amount: singleProduct?.price,
         currency: 'BDT',
-        tran_id: tran_id, // Unique transaction ID for each API call
-        success_url: `http://localhost:3000/payment/success/${tran_id}`,
+        tran_id: tran_id,  
+        // http://localhost:5173/
+        success_url:`https://giftly-ba979.web.app/payment/success/${tran_id}`,
         fail_url: 'http://localhost:3030/fail',
         cancel_url: 'http://localhost:3030/cancel',
         ipn_url: 'http://localhost:3030/ipn',
