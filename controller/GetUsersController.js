@@ -75,7 +75,7 @@ exports.updateReceiver = async (req, res) => {
 exports.getReviewByUser = async (req, res) => {
     try {
         const email = req.params.email;  // Get the email from URL parameters
-        const Reviewer = await orderModel.find({ userEmail: email });  // Use `findOne` to get a single user
+        const Reviewer = await orderModel.find({ userEmail: email});  // Use `findOne` to get a single user
 
         if (!Reviewer) {
             return res.status(404).json({ message: "User not found" });

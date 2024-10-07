@@ -5,7 +5,15 @@ exports.getOrderInfoByProductId = async (req, res) => {
         const { id, email } = req.params; // Get both id and email from params
 
         // Find order by both product id and user email
-        const getData = await orderModelSchema.findOne({ productId: id, userEmail: email, order_status: "Delivered", });
+        const getData = await orderModelSchema.findOne({ tran_id: id, userEmail: email});
+
+        if (getData?.order_status !== "Delivered"){
+            return res.status(404).json({
+                message: "Product is not delivered yet",
+                error: true,
+                success: false
+            });
+        }
 
         if (!getData) {
             return res.status(404).json({
