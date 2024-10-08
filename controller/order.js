@@ -11,14 +11,14 @@ const order = async (req, res) => {
     const localORProduction = process.env.VITE_SUCCESS_URL || 'http://localhost:3000';  
 
     const user = req.body;
- 
+
     // Get product by ID for better security
     const singleProduct = await giftModel.findById(user?.productId);
-console.log(singleProduct);
+    console.log(singleProduct);
     if (!singleProduct) {
         return res.status(404).json({ message: "Product not found" });
     }
-console.log(singleProduct);
+    console.log(singleProduct);
     const tran_id = new mongoose.Types.ObjectId().toString();
 
     const data = {
@@ -61,16 +61,22 @@ console.log(singleProduct);
 
         // Save the order with product_id
         const newOrder = new orderModel({
-            userName:user?.name,
-            userEmail:user?.email,
-            userPhone:user?.number,
+            userName: user?.name,
+            userEmail: user?.email,
+            userPhone: user?.number,
             tran_id: tran_id,
-            productId: user?.productId,  
-            product_name:singleProduct?.giftName,
-            product_brand:singleProduct?.brand,
-            product_image: singleProduct?.giftImage || [],             total_amount: singleProduct?.price,
+            productId: user?.productId,
+            product_name: singleProduct?.giftName,
+            product_brand: singleProduct?.brand,
+            product_image: singleProduct?.giftImage || [], total_amount: singleProduct?.price,
             payment_status: 'Pending',
             order_status: 'Pending',
+            review: {
+                rating: null,
+                comment: null,
+                tran_id: null,
+                reviewedAt: null
+            }
         });
         console.log(newOrder, 'inside the payment ');
 
