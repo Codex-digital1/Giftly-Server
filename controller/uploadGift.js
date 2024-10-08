@@ -1,6 +1,7 @@
 const giftModel = require("../model/giftModelSchema")
 
 const uploadGift = async (req, res) => {
+    console.log(req.body,'inside the uploadGift');
     try {   
         const uploadGift = new giftModel(req?.body)
         const saveGift = await uploadGift.save()
