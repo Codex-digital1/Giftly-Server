@@ -12,7 +12,9 @@ const uploadGift = async (req, res) => {
             success: true,
             message: "Gift uploaded successfully"
         })
+        console.log('Post successfully',uploadGift);
     } catch (error) {
+        console.log(error)
         res.status(400).json({
             message: error.message,
             error: true,
