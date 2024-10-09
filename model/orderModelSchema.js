@@ -1,24 +1,53 @@
 const mongoose = require('mongoose');
 
-// Define the Order schema
 const orderSchema = new mongoose.Schema({
-    user: {
-        name: { type: String, required: true },
-        email: { type: String, required: true },
-        address: { type: String, required: true },
-        number: { type: String, required: true }
+    tran_id: {
+        type: String,
+        required: true,
+        unique: true,
     },
-    product: {
-        id: { type: mongoose.Schema.Types.ObjectId, ref: 'Gift', required: true },
-        name: { type: String, required: true },
-        price: { type: Number, required: true }
+    productId: {
+        type: String,
+        required: true,
     },
-    paidStatus: { type: Boolean, default: false },
-    transactionId: { type: String, required: true },
-    createdAt: { type: Date, default: Date.now }
-});
+    product_name: {
+        type: String,
+        required: true,
+    },
+    product_brand: {
+        type: String,
+        required: true,
+    },
+    product_image: {
+        type: [String],
+        required: true,
+    },
+    userName: {
+        type: String,
+        required: true,
+    },
+    userEmail: {
+        type: String,
+        required: true,
+    },
+    userPhone: {
+        type: String,
+        required: true,
+    },
+    total_amount: {
+        type: Number,
+        required: true,
+    },
+    payment_status: {
+        type: String,
+        enum: ['Pending', 'Success', 'Failed'],
+        default: 'Pending',
+    },
+    order_status: {
+        type: String,
+        enum: ['Pending', 'Processing', 'Shipping', 'Delivered'],
+        default: 'Pending',
+    }
+}, { timestamps: true });
 
-// Create the Order model
-const Order = mongoose.model('Order', orderSchema);
-
-module.exports = Order;
+module.exports = mongoose.model('Order', orderSchema);
