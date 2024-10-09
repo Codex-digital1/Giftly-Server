@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const uploadGift = require("../controller/uploadGift");
+const getAllUsers = require("../controller/getAllUsers");
 const getAllGift = require("../controller/getAllGift");
 const getAGift = require("../controller/getAGift");
 const order = require("../controller/order")
@@ -25,6 +26,7 @@ router.get("/getAllGift", getAllGift);
 
 // user
 router.get("/all-orders", orderManage);
+router.get("/allUsers", getAllUsers);
 router.get("/user-orders/:email", getSpecificUserOrdersList);
 router.patch("/order-status-update/:id", updateOrderStatus);
 router.get("/:giftId", getAGift);
