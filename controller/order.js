@@ -17,7 +17,8 @@ const order = async (req, res) => {
     if (!singleProduct) {
         return res.status(404).json({ message: "Product not found" });
     }
- 
+    // console.log(singleProduct, 'single product');
+    // console.log(singleProduct.brand, 'single product brand'); 
 
     const tran_id = new mongoose.Types.ObjectId().toString();
 
@@ -25,8 +26,8 @@ const order = async (req, res) => {
         total_amount: singleProduct?.price,
         currency: 'BDT',
         tran_id: tran_id,  
-        // 
-        success_url:`http://localhost:5173/payment/success/${tran_id}`,
+
+        success_url:`https://giftly-ba979.web.app/payment/success/${tran_id}`,
         fail_url: 'http://localhost:3030/fail',
         cancel_url: 'http://localhost:3030/cancel',
         ipn_url: 'http://localhost:3030/ipn',
