@@ -5,7 +5,10 @@ const uploadGift = async (req, res) => {
     try {   
         const uploadGift = new giftModel(req?.body)
         const saveGift = await uploadGift.save()
-
+        const {notificationClass,hi}=require('../index')
+        console.log(notificationClass,3,hi);
+        const re =await notificationClass.newGiftNotification(saveGift.giftName,saveGift._id)
+        console.log(re);
         res.status(200).json({
             data: saveGift,
             error: false,
@@ -18,7 +21,7 @@ const uploadGift = async (req, res) => {
         res.status(400).json({
             message: error.message,
             error: true,
-            success: false
+            success: false  
         })
     }
 }
