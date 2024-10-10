@@ -85,7 +85,7 @@ const giftSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  brandName: {
+  brand: {
     type: String,
     required: true
   },
