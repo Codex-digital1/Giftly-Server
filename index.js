@@ -3,15 +3,14 @@ const cors = require("cors")
 require("dotenv").config()
 const mongoose = require("mongoose");
 const router = require("./router/router");
-const app = express()
-const http=require('http')
-const server = http.createServer(app);
 const port = process.env.PORT || 3000;
+const socketIO = require('socket.io');
+const orderModel = require('./model/orderModelSchema')
+const app = express()
+const http = require("http");
 const SocketIo = require("./chatApp/SocketIo");
- const {notification,NotificationClass} = require('./Notification/notification');
-// Middleware
 
-app.use(express.json());
+// Middleware
 app.use(cors({
     origin:
     [
@@ -20,7 +19,8 @@ app.use(cors({
     ] ,
     credentials: true,
 }));
-
+app.use(express.json());
+const server = http.createServer(app);
 
 mongoose.connect(process.env.MONGO_URI, { dbName: 'Giftly-server-db' })
     .then(() => {
@@ -32,15 +32,30 @@ mongoose.connect(process.env.MONGO_URI, { dbName: 'Giftly-server-db' })
 // Routes
 app.use("/", router);
 SocketIo(server);
-notification(server) 
-const notificationClass=new NotificationClass(server)
-notificationClass.sendAll()
 
+app.get("/", async (req, res) => {
+    res.send("Giftly db is connected");
+});
 
-app.get("/", async(_req,res)=>{
-    res.send(" Giftly db is connected")
-})
+// Define the success route
+app.post('/payment/success/:tranId', async (req, res) => {
+  const { tranId } = req.params;
+  console.log('Transaction ID:', tranId);
+  try {
+      const order = await orderModel.findOne({ tran_id: tranId }); 
+      if (!order) {
+          return res.status(404).json({ message: "Order not found" });
+      }
+      order.payment_status = "Success";
+      await order.save(); 
+      // Send response based on the success of the order update
+      res.redirect(`http://localhost:5173/payment/success/${tranId}`);
+  } catch (error) {
+      res.status(500).json({ message: "Payment success handling failed", error });
+  }
+});
+
 server.listen(port, () => {
-    console.log(`Giftly is running on this ${port} port`)
-})
-module.exports={notificationClass,hi:'hello'}
+    console.log(`Giftly is running on port ${port}`);
+});
+
