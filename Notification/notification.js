@@ -8,7 +8,10 @@ class NotificationClass{
     this.server=server
     this.io = new Server(server, {
       cors: {
-        origin: 'http://localhost:5173', // React frontend URL
+        origin: [
+          'http://localhost:5173',
+         'https://giftly-ba979.web.app'
+        ] ,
         methods: ['GET', 'POST']
       }
     })
@@ -62,38 +65,5 @@ async updateOrderStatusNotification(orderId,userId,newStatus){
   
 }
 
-const notification= (server)=>{return server}
-// console.log(notification);
-// // const notification= ()=>{
-// // Initialize Socket.IO
-// const io = new Server(notification, {
-//     cors: {
-//       origin: 'http://localhost:5173', // React frontend URL
-//       methods: ['GET', 'POST']
-//     }
-//   });
-// Socket.IO connection handler
-// io.on('connection', async(socket) => {
-//     console.log('12 ,A user connected:', socket.id);
-//     const notifications = await Notification.find()
-//     // console.log(notifications);
-//     // Emit a real-time notification when the user connects
-//     socket.emit('initialNotifications', notifications);
-  
-//     // Example: Send a notification to a user
-//     socket.on('sendNotification', (notificationData) => {
-//       // Broadcast the notification to the connected clients
-//       io.emit('receiveNotification', notificationData);
-//     });
-  
-//     // Handle disconnection
-//     socket.on('disconnect', () => {
-//       console.log('User disconnected:', socket.id);
-//     });
-//   });
-  
-  // module.exports={io}
-// }
 
-
-module.exports={notification,NotificationClass}
+module.exports={NotificationClass};
