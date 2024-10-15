@@ -9,6 +9,7 @@ const updateAGift = require("../controller/updateAGift");
 const deleteAGift = require("../controller/deleteAGift");
 const userCreate = require("../controller/userCreate");
 const getAUser = require('../controller/getAUser')
+const updateUser = require("../controller/updateUser");
 
 const { getAllMessage } = require("../controller/chatController");
 const { getUsers, getSingleUser, updateReceiver, getReceiverData, getReviewByUser, submitReviewByUser } = require("../controller/GetUsersController");
@@ -25,6 +26,8 @@ const {
 router.post("/users", userCreate);
 router.get("/getAUser/:email", getAUser);
 router.get("/getAllGift", getAllGift);
+router.put("/users/:userId", updateUser);
+
 
 // user
 router.get("/all-orders", orderManage);

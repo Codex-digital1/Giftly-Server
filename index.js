@@ -8,7 +8,7 @@ const http=require('http')
 const server = http.createServer(app);
 const port = process.env.PORT || 3000;
 const SocketIo = require("./chatApp/SocketIo");
- const {notification,NotificationClass} = require('./Notification/notification');
+ const {NotificationClass} = require('./Notification/notification');
 // Middleware
 
 app.use(express.json());
@@ -32,7 +32,6 @@ mongoose.connect(process.env.MONGO_URI, { dbName: 'Giftly-server-db' })
 // Routes
 app.use("/", router);
 SocketIo(server);
-notification(server) 
 const notificationClass=new NotificationClass(server)
 notificationClass.sendAll()
 
@@ -43,4 +42,4 @@ app.get("/", async(_req,res)=>{
 server.listen(port, () => {
     console.log(`Giftly is running on this ${port} port`)
 })
-module.exports={notificationClass,hi:'hello'}
+module.exports={notificationClass}

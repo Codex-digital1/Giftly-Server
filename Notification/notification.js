@@ -17,7 +17,8 @@ class NotificationClass{
   sendAll(){
 this.io.on('connection', async(socket) => {
   console.log('12 ,A user connected:', socket.id);
-  const notifications = await Notification.find()
+  const notifications = await Notification.find().sort({ createdAt: -1 }) // -1 for ascending (LIFO: oldest to newest)
+  .exec();
   // console.log(notifications);
   // Emit a real-time notification when the user connects
   socket.emit('initialNotifications', notifications);
@@ -38,7 +39,7 @@ this.io.on('connection', async(socket) => {
     const notification = new Notification({
       title: 'New Gift Added!',
       message: `A new gift, ${giftName}, has been added to our store. Check it out!`,
-      gift: giftId,
+      giftId: giftId,
       actionType:'new_gift'
     });
     await notification.save();
@@ -62,38 +63,5 @@ async updateOrderStatusNotification(orderId,userId,newStatus){
   
 }
 
-const notification= (server)=>{return server}
-// console.log(notification);
-// // const notification= ()=>{
-// // Initialize Socket.IO
-// const io = new Server(notification, {
-//     cors: {
-//       origin: 'http://localhost:5173', // React frontend URL
-//       methods: ['GET', 'POST']
-//     }
-//   });
-// Socket.IO connection handler
-// io.on('connection', async(socket) => {
-//     console.log('12 ,A user connected:', socket.id);
-//     const notifications = await Notification.find()
-//     // console.log(notifications);
-//     // Emit a real-time notification when the user connects
-//     socket.emit('initialNotifications', notifications);
-  
-//     // Example: Send a notification to a user
-//     socket.on('sendNotification', (notificationData) => {
-//       // Broadcast the notification to the connected clients
-//       io.emit('receiveNotification', notificationData);
-//     });
-  
-//     // Handle disconnection
-//     socket.on('disconnect', () => {
-//       console.log('User disconnected:', socket.id);
-//     });
-//   });
-  
-  // module.exports={io}
-// }
 
-
-module.exports={notification,NotificationClass}
+module.exports={NotificationClass}

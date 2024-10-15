@@ -1,7 +1,7 @@
 const User = require('../model/userSchema')
 
 const getAUser = async(req,res) => {
- console.log(req.params.emai);
+//  console.log(req.params.email);
     try {
 
         const getAUser = await User.findOne({email: req.params.email});
@@ -12,7 +12,7 @@ const getAUser = async(req,res) => {
             success: true,
             message: "Get a User"
         })
- console.log(getAUser);
+//  console.log(getAUser);
     } catch (error) {
         res.status(400).json({
             message: error.message,
