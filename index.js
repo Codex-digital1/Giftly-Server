@@ -97,8 +97,8 @@ mongoose.connect(process.env.MONGO_URI, { dbName: 'Giftly-server-db' })
 app.use("/", router);
 SocketIo(server);
 
-const notificationClass = new NotificationClass(server);
-notificationClass.sendAll();
+// const notificationClass = new NotificationClass(server);
+// notificationClass.sendAll();
 
 app.get("/", async (req, res) => {
     res.send("Giftly db is connected");

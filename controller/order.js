@@ -77,7 +77,9 @@ const order = async (req, res) => {
                 comment: null,
                 tran_id: null,
                 reviewedAt: null
-            }
+            },
+          sheduleDate: user?.sheduleDate ? user.sheduleDate : "",
+          isShedule: user?.sheduleDate ? true : false,
         });
         console.log(newOrder, 'New order details ');
 
