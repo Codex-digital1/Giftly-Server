@@ -4,6 +4,7 @@ const userCreate = async (req, res) => {
     try {
         const { name, email, phoneNumber, address,profileImage,chat } = req.body;
         console.log(chat)
+        
         // console.log(req.body);
         if (!email || !name ) {
             return res.status(400).json({ message: 'All fields are required' });
@@ -11,9 +12,10 @@ const userCreate = async (req, res) => {
         // Check if user already exists
         const userExists = await User.findOne({ email });
         if (userExists) {
-            return res.status(400).json({ message: 'User already exists' });
+            return res.json({ message: 'User already exists' });
         }
         
+        // console.log(16,userExists);
         // console.log(16,userExists);
         // Create a new user object
         const user = new User({
@@ -34,8 +36,10 @@ const userCreate = async (req, res) => {
           },
         });
     // console.log(user);
+    // console.log(user);
         // Save the user to the database
         const savedUser = await user.save();
+    // console.log(33,savedUser);
     // console.log(33,savedUser);
         // Respond with the saved user (excluding password)
         res.status(201).json({
