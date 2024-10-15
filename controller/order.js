@@ -14,18 +14,19 @@ const order = async (req, res) => {
 
     // Get product by ID for better security
     const singleProduct = await giftModel.findById(user?.productId);
-    console.log(singleProduct);
     if (!singleProduct) {
         return res.status(404).json({ message: "Product not found" });
     }
-    console.log(singleProduct);
+    // console.log(singleProduct, 'single product');
+    // console.log(singleProduct.brand, 'single product brand'); 
+
     const tran_id = new mongoose.Types.ObjectId().toString();
 
     const data = {
         total_amount: singleProduct?.price,
         currency: 'BDT',
         tran_id: tran_id,  
-        // http://localhost:5173/
+
         success_url:`https://giftly-ba979.web.app/payment/success/${tran_id}`,
         fail_url: 'http://localhost:3030/fail',
         cancel_url: 'http://localhost:3030/cancel',
@@ -52,8 +53,7 @@ const order = async (req, res) => {
         ship_postcode: 1000,
         ship_country: 'Bangladesh',
     };
-
-    console.log(data);
+    // console.log(data,'Data');
 
     const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
     sslcz.init(data).then(async (apiResponse) => {
@@ -68,6 +68,7 @@ const order = async (req, res) => {
             productId: user?.productId,
             product_name: singleProduct?.giftName,
             product_brand: singleProduct?.brand,
+            // product_brand: 'TestBrand',
             product_image: singleProduct?.giftImage || [], total_amount: singleProduct?.price,
             payment_status: 'Pending',
             order_status: 'Pending',
@@ -78,10 +79,13 @@ const order = async (req, res) => {
                 reviewedAt: null
             }
         });
-        console.log(newOrder, 'inside the payment ');
+        console.log(newOrder, 'New order details ');
 
-        const data = await newOrder.save();
-        console.log(data,);
+        const saveGift = await newOrder.save();
+console.log(saveGift);
+
+console.log(singleProduct?.brand, 'Product Brand');
+console.log(newOrder.product_brand, 'New Order Product Brand');
 
         res.send({ url: GatewayPageURL });
         console.log('Redirecting to:', GatewayPageURL);

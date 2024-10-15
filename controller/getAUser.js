@@ -3,7 +3,6 @@ const User = require('../model/userSchema')
 const getAUser = async(req,res) => {
 //  console.log(req.params.email);
     try {
-
         const getAUser = await User.findOne({email: req.params.email});
         // console.log("get ", getData)
         res.status(200).json({
