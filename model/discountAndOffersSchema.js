@@ -28,6 +28,6 @@ const discountAndOffersSchema = new Schema(
     timestamps: true,  
   }
 );
-const discountAndOffers = mongoose.model('discount and Offer ', discountAndOffersSchema);
+const discountAndOffers = mongoose.model('DiscountAndOffer', discountAndOffersSchema);
 
 module.exports = discountAndOffers;
