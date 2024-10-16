@@ -70,9 +70,13 @@ const router = require("./router/router");
 const port = process.env.PORT || 3000;
 const orderModel = require('./model/orderModelSchema')
 const app = express()
+
+
 const http = require("http");
+const { Server } = require('socket.io');
 const SocketIo = require("./chatApp/SocketIo");
-// const {NotificationClass} = require('./Notification/notification');
+const {NotificationClass} = require('./Notification/notification');
+
 
 // Middleware
 app.use(cors({
@@ -85,6 +89,13 @@ app.use(cors({
 app.use(express.json());
 
 const server = http.createServer(app);
+// Create only one socket.io instance
+const io = new Server(server, {
+    cors: {
+        origin: "*"
+    }
+});
+
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI, { dbName: 'Giftly-server-db' })
@@ -95,10 +106,11 @@ mongoose.connect(process.env.MONGO_URI, { dbName: 'Giftly-server-db' })
 
 // Routes
 app.use("/", router);
-SocketIo(server);
 
-// const notificationClass = new NotificationClass(server);
-// notificationClass.sendAll();
+// Pass the same io instance to both SocketIo and NotificationClass
+SocketIo(io);
+const notificationClass = new NotificationClass(io);
+notificationClass.sendAll();
 
 app.get("/", async (req, res) => {
     res.send("Giftly db is connected");
