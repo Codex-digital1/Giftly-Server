@@ -9,6 +9,7 @@ const updateAGift = require("../controller/updateAGift");
 const deleteAGift = require("../controller/deleteAGift");
 const userCreate = require("../controller/userCreate");
 const getAUser = require('../controller/getAUser')
+const uploadADiscount = require('../controller/uploadADiscount')
 
 const { getAllMessage } = require("../controller/chatController");
 const { getUsers, getSingleUser, updateReceiver, getReceiverData, getReviewByUser, submitReviewByUser } = require("../controller/GetUsersController");
@@ -51,4 +52,8 @@ router.get("/user/getReceiver/:receiverName", getReceiverData);
 router.get("/user/getReviewer/:email", getReviewByUser)
 router.put("/order/submitReview/:email", submitReviewByUser);
 router.get('/:id/:email', getOrderInfoByProductId);
+
+// Upload discount and offers
+router.post('/discount', uploadADiscount)
+
 module.exports = router;
