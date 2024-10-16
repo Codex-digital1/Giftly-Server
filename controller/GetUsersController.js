@@ -91,12 +91,12 @@ exports.getReviewByUser = async (req, res) => {
 
 exports.submitReviewByUser = async (req, res) => {
     const userEmail = req.params.email; // User email from the route params
-    const { rating, comment, tran_id } = req.body; // Review details from the request body
-    console.log(userEmail, rating, comment, tran_id)
+    const { rating, comment, tran_id,ReviewerName,ReviewerProfileImage } = req.body; // Review details from the request body
+    console.log("reviewer",ReviewerProfileImage)
 
 
     // Validate the request body
-    if (!rating || !comment || !tran_id) {
+    if (!rating || !comment || !tran_id || !ReviewerName || !ReviewerProfileImage ) {
         return res.status(400).json({ message: "Rating, comment, and transaction ID are required" });
     }
 
@@ -113,7 +113,10 @@ exports.submitReviewByUser = async (req, res) => {
             {
                 "review.rating": rating,
                 "review.comment": comment,
+                "review.ReviewerName": ReviewerName,
+                "review.ReviewerProfileImage": ReviewerProfileImage,
                 "review.reviewedAt": Date.now(),
+
             },
             { new: true }
         );
