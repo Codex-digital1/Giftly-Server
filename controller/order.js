@@ -61,25 +61,25 @@ const order = async (req, res) => {
 
         // Save the order with product_id
         const newOrder = new orderModel({
-          userName: user?.name,
-          userEmail: user?.email,
-          userPhone: user?.number,
-          tran_id: tran_id,
-          productId: user?.productId,
-          product_name: singleProduct?.giftName,
-          product_brand: singleProduct?.brand,
-          product_image: singleProduct?.giftImage || [],
-          total_amount: singleProduct?.price,
-          payment_status: "Pending",
-          order_status: "Pending",
-          sheduleDate: user?.sheduleDate ? user.sheduleDate : "",
-          isShedule: user?.sheduleDate ? true : false,
+            userName: user?.name,
+            userEmail: user?.email,
+            userPhone: user?.number,
+            tran_id: tran_id,
+            productId: user?.productId,
+            product_name: singleProduct?.giftName,
+            product_brand: singleProduct?.brand,
+            // product_brand: 'TestBrand',
+            product_image: singleProduct?.giftImage || [], total_amount: singleProduct?.price,
+            payment_status: 'Pending',
+            order_status: 'Pending',
             review: {
                 rating: null,
                 comment: null,
                 tran_id: null,
                 reviewedAt: null
-            }
+            },
+          sheduleDate: user?.sheduleDate ? user.sheduleDate : "",
+          isShedule: user?.sheduleDate ? true : false,
         });
         console.log(newOrder, 'New order details ');
 

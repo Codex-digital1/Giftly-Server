@@ -67,20 +67,39 @@ const orderSchema = new mongoose.Schema(
       default: "Pending",
     },
     order_status: {
-      type: String,
-      enum: ["Pending", "Processing", "Shipping", "Delivered"],
-      default: "Pending",
+        type: String,
+        enum: ['Pending', 'Processing', 'Shipping', 'Delivered'],
+        default: 'Pending',
     },
     isShedule: {
-      type: Boolean,
-      default: false,
-    },
-    sheduleDate: {
-      type: String,
-      default: null,
-    },
-  },
-  { timestamps: true }
-);
-   
+        type: Boolean,
+        default: false,
+      },
+      sheduleDate: {
+        type: String,
+        default: null,
+      },
+    review: {
+        type: {
+            rating: {
+                type: Number,
+                min: 1,
+                max: 5,
+                // required: function () { return this.order_status === 'Delivered'; },
+                default: null
+            },
+            comment: {
+                type: String,
+                default: null
+            },
+            reviewedAt: {
+                type: Date,
+                default: null
+            }
+        },
+        default: {},
+    }
+
+}, { timestamps: true });
+
 module.exports = mongoose.model('Order', orderSchema);
