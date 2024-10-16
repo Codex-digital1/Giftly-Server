@@ -39,6 +39,28 @@ const orderSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    // Review Start
+    review: {
+      type: {
+        rating: {
+          type: Number,
+          min: 1,
+          max: 5,
+          // required: function () { return this.order_status === 'Delivered'; },
+          default: null,
+        },
+        comment: {
+          type: String,
+          default: null,
+        },
+        reviewedAt: {
+          type: Date,
+          default: null,
+        },
+      },
+      default: {},
+    },
+    // Review End
     payment_status: {
       type: String,
       enum: ["Pending", "Success", "Failed"],
@@ -60,5 +82,5 @@ const orderSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
+   
 module.exports = mongoose.model('Order', orderSchema);

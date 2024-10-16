@@ -1,5 +1,6 @@
 const SSLCommerzPayment = require("sslcommerz-lts");
 const mongoose = require("mongoose");
+require('dotenv').config();
 const giftModel = require("../model/giftModelSchema");
 const orderModel = require("../model/orderModelSchema");
 const store_id = process.env.STORE_ID;
@@ -7,22 +8,26 @@ const store_passwd = process.env.STORE_PASS;
 const is_live = false; // true for live, false for sandbox
 
 const order = async (req, res) => {
+    const localORProduction = process.env.VITE_SUCCESS_URL || 'http://localhost:3000';  
+
     const user = req.body;
- 
+
     // Get product by ID for better security
     const singleProduct = await giftModel.findById(user?.productId);
-console.log(singleProduct);
     if (!singleProduct) {
         return res.status(404).json({ message: "Product not found" });
     }
-console.log(singleProduct);
+    // console.log(singleProduct, 'single product');
+    // console.log(singleProduct.brand, 'single product brand'); 
+
     const tran_id = new mongoose.Types.ObjectId().toString();
 
     const data = {
         total_amount: singleProduct?.price,
         currency: 'BDT',
-        tran_id: tran_id, // Unique transaction ID for each API call
-        success_url: `http://localhost:3000/payment/success/${tran_id}`,
+        tran_id: tran_id,  
+
+        success_url:`https://giftly-ba979.web.app/payment/success/${tran_id}`,
         fail_url: 'http://localhost:3030/fail',
         cancel_url: 'http://localhost:3030/cancel',
         ipn_url: 'http://localhost:3030/ipn',
@@ -48,8 +53,7 @@ console.log(singleProduct);
         ship_postcode: 1000,
         ship_country: 'Bangladesh',
     };
-
-    console.log(data);
+    // console.log(data,'Data');
 
     const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
     sslcz.init(data).then(async (apiResponse) => {
@@ -70,11 +74,20 @@ console.log(singleProduct);
           order_status: "Pending",
           sheduleDate: user?.sheduleDate ? user.sheduleDate : "",
           isShedule: user?.sheduleDate ? true : false,
+            review: {
+                rating: null,
+                comment: null,
+                tran_id: null,
+                reviewedAt: null
+            }
         });
-        console.log(newOrder, 'inside the payment ');
+        console.log(newOrder, 'New order details ');
 
-        const data = await newOrder.save();
-        console.log(data,);
+        const saveGift = await newOrder.save();
+console.log(saveGift);
+
+console.log(singleProduct?.brand, 'Product Brand');
+console.log(newOrder.product_brand, 'New Order Product Brand');
 
         res.send({ url: GatewayPageURL });
         console.log('Redirecting to:', GatewayPageURL);
