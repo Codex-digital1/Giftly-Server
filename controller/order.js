@@ -8,7 +8,7 @@ const store_passwd = process.env.STORE_PASS;
 const is_live = false; // true for live, false for sandbox
 
 const order = async (req, res) => {
-    const localORProduction = process.env.VITE_SUCCESS_URL || 'http://localhost:3000';  
+    const localORProduction = process.env.VITE_SUCCESS_URL || 'http://localhost:3000';
 
     const user = req.body;
 
@@ -25,9 +25,9 @@ const order = async (req, res) => {
     const data = {
         total_amount: singleProduct?.price,
         currency: 'BDT',
-        tran_id: tran_id,  
+        tran_id: tran_id,
 
-        success_url:`https://giftly-ba979.web.app/payment/success/${tran_id}`,
+        success_url: `https://giftly-ba979.web.app/payment/success/${tran_id}`,
         fail_url: 'http://localhost:3030/fail',
         cancel_url: 'http://localhost:3030/cancel',
         ipn_url: 'http://localhost:3030/ipn',
@@ -82,10 +82,10 @@ const order = async (req, res) => {
         console.log(newOrder, 'New order details ');
 
         const saveGift = await newOrder.save();
-console.log(saveGift);
+        console.log(saveGift);
 
-console.log(singleProduct?.brand, 'Product Brand');
-console.log(newOrder.product_brand, 'New Order Product Brand');
+        console.log(singleProduct?.brand, 'Product Brand');
+        console.log(newOrder.product_brand, 'New Order Product Brand');
 
         res.send({ url: GatewayPageURL });
         console.log('Redirecting to:', GatewayPageURL);

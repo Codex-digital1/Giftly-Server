@@ -7,7 +7,7 @@ const giftSchema = mongoose.Schema({
     },
     store: {
         type: String,
-        required: true
+        default: 'Giftly'
     },
     brand: {
         type: String,
@@ -19,7 +19,7 @@ const giftSchema = mongoose.Schema({
     },
     price: {
         type: Number,
-        required: true
+        default : true
     },
     rating: {
         type: Number,
@@ -31,7 +31,7 @@ const giftSchema = mongoose.Schema({
     },
     productAddBy: {
         type: String,
-        required: true
+        default: "admin"
     },
     description: {
         type: String,
@@ -52,7 +52,6 @@ const giftSchema = mongoose.Schema({
     },
     category: {
         type: String,
-        enum: ["All", "Gift for Him", "Gift for Her", "Tech Gift"],
         required: true
     },
     availability: {
@@ -62,7 +61,7 @@ const giftSchema = mongoose.Schema({
     },
     quantity: {
         type: Number,
-        required: true
+        default: 5
     }
 }, { timestamps: true });
 
