@@ -63,13 +63,21 @@ const orderSchema = new mongoose.Schema(
                 type: Number,
                 min: 1,
                 max: 5,
-                // required: function () { return this.order_status === 'Delivered'; },
                 default: null
             },
             comment: {
                 type: String,
                 default: null
             },
+            ReviewerName: {
+                type: String,
+                default: null
+            },
+            ReviewerProfileImage: {
+                type: String,
+                default: null
+            },
+
             reviewedAt: {
                 type: Date,
                 default: null

@@ -76,21 +76,25 @@ const order = async (req, res) => {
                 rating: null,
                 comment: null,
                 tran_id: null,
+                ReviewerName:null,
+                ReviewerProfileImage:null,
                 reviewedAt: null
             },
           sheduleDate: user?.sheduleDate ? user.sheduleDate : "",
           isShedule: user?.sheduleDate ? true : false,
         });
-        console.log(newOrder, 'New order details ');
+
+
+        // console.log(newOrder, 'New order details ');
 
         const saveGift = await newOrder.save();
-        console.log(saveGift);
+        // console.log(saveGift);
 
-        console.log(singleProduct?.brand, 'Product Brand');
-        console.log(newOrder.product_brand, 'New Order Product Brand');
+        // console.log(singleProduct?.brand, 'Product Brand');
+        // console.log(newOrder.product_brand, 'New Order Product Brand');
 
         res.send({ url: GatewayPageURL });
-        console.log('Redirecting to:', GatewayPageURL);
+        // console.log('Redirecting to:', GatewayPageURL);
     });
 };
 

@@ -72,7 +72,7 @@ const orderModel = require('./model/orderModelSchema')
 const app = express()
 const http = require("http");
 const SocketIo = require("./chatApp/SocketIo");
-const {NotificationClass} = require('./Notification/notification');
+// const {NotificationClass} = require('./Notification/notification');
 
 // Middleware
 app.use(cors({
