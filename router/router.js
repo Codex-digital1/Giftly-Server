@@ -12,8 +12,11 @@ const getAUser = require('../controller/getAUser')
 const { getAllMessage } = require("../controller/chatController");
 const { getUsers, getSingleUser, updateReceiver, getReceiverData, getReviewByUser, submitReviewByUser } = require("../controller/GetUsersController");
 const { getOrderInfoByProductId } = require("../controller/getOrderInfoByProductId");
+const { getReviewByProductId } = require("../controller/Review");
+
 const uploadADiscount = require('../controller/uploadADiscount')
 const getDiscountAndOffers = require('../controller/getDiscountAndOffers')
+
 const {
   orderManage,
   updateOrderStatus,
@@ -49,6 +52,7 @@ router.get("/user/getReceiver/:receiverName", getReceiverData);
 
 // review and rating
 router.get("/user/getReviewer/:email", getReviewByUser)
+router.get("/getAllReviews/:productId", getReviewByProductId)
 router.put("/order/submitReview/:email", submitReviewByUser);
 router.get('/:id/:email', getOrderInfoByProductId);
 

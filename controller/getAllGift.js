@@ -1,7 +1,8 @@
-const giftModel = require("../model/giftModelSchema")
+const giftModel = require("../model/giftModelSchema");
+
 
 const getAllGift = async (req, res) => {
-    const { category, priceMin, priceMax, rating, availability, sortBy, search } = req.query;
+    const { category, priceMin, priceMax, rating, availability, sortBy, search } = req?.query;
     // console.log(req.query);
        // Create a filter object
        let filter = {};
