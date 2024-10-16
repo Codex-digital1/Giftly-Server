@@ -30,18 +30,27 @@ const updateOrderStatus = async (req, res) => {
   const {id} = req.params
 
   try {
-
     // Get Order By ID
     const order = await Order.findById(id);
 
     // Validation
-    if(!order) return res.status(404).json({message: 'Order Not Found', success:false});
-
+    if (!order)
+      return res
+        .status(404)
+        .json({ message: "Order Not Found", success: false });
 
     // Update Status
     order.order_status = status || order.order_status;
-    await order.save()
-    return res.status(200).json({ order , message: 'Status Updated Successful', success:true});
+    // Update Delevery Shedule
+    if (order?.isShedule && order?.isShedule === true) {
+      order.isShedule = false;
+      order.sheduleDate = "";
+    }
+
+    await order.save();
+    return res
+      .status(200)
+      .json({ order, message: "Status Updated Successful", success: true });
   } catch (error) {
     console.error("Error updateOrderStatus:", error);
     res.status(500).json({ error: error.message });
