@@ -1,56 +1,49 @@
-const { Server } = require('socket.io');
+// const { Server } = require('socket.io');
 
-const Notification=require('../model/NotificationSchema')
+const Notification = require('../model/NotificationSchema')
 
 
-class NotificationClass{
-  constructor(server){
-    this.server=server
-    this.io = new Server(server, {
-      cors: {
-        origin: 'http://localhost:5173', // React frontend URL
-        methods: ['GET', 'POST']
-      }
-    })
+class NotificationClass {
+  constructor(io) {
+    this.io = io;
   }
-  
-  sendAll(){
-this.io.on('connection', async(socket) => {
-  console.log('12 ,A user connected:', socket.id);
-  const notifications = await Notification.find().sort({ createdAt: -1 }) // -1 for ascending (LIFO: oldest to newest)
-  .exec();
-  // console.log(notifications);
-  // Emit a real-time notification when the user connects
-  socket.emit('initialNotifications', notifications);
 
-  // Example: Send a notification to a user
-  socket.on('sendNotification', (notificationData) => {
-    // Broadcast the notification to the connected clients
-    io.emit('receiveNotification', notificationData);
-  });
+  sendAll() {
+    this.io.on('connection', async (socket) => {
+      console.log('12 ,A user connected:', socket.id);
+      const notifications = await Notification.find()
+      // console.log(notifications);
+      // Emit a real-time notification when the user connects
+      socket.emit('initialNotifications', notifications);
 
-  // Handle disconnection
-  socket.on('disconnect', () => {
-    console.log('User disconnected:', socket.id);
-  });
-});
+      // Example: Send a notification to a user
+      socket.on('sendNotification', (notificationData) => {
+        // Broadcast the notification to the connected clients
+        io.emit('receiveNotification', notificationData);
+      });
+
+      // Handle disconnection
+      socket.on('disconnect', () => {
+        console.log('User disconnected:', socket.id);
+      });
+    });
   }
- async newGiftNotification(giftName,giftId){
+  async newGiftNotification(giftName, giftId) {
     const notification = new Notification({
       title: 'New Gift Added!',
       message: `A new gift, ${giftName}, has been added to our store. Check it out!`,
-      giftId: giftId,
-      actionType:'new_gift'
+      gift: giftId,
+      actionType: 'new_gift'
     });
     await notification.save();
     this.io.emit('newNotification', notification);
     return notification
 
-}
-async updateOrderStatusNotification(orderId,userId,newStatus){
+  }
+  async updateOrderStatusNotification(orderId, userId, newStatus) {
 
-  // Notify the user about the status update
-  const notification = new Notification({
+    // Notify the user about the status update
+    const notification = new Notification({
       user: userId,
       title: 'Order Status Updated',
       message: `Your order #${orderId} status has been updated to ${newStatus}.`,
@@ -59,8 +52,8 @@ async updateOrderStatusNotification(orderId,userId,newStatus){
 
     // Emit real-time notification to the user
     this.io.to(userId).emit('receiveNotification', notification);
-}
-  
+  }
+
 }
 
 

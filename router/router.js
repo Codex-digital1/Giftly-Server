@@ -14,6 +14,10 @@ const updateUser = require("../controller/updateUser");
 const { getAllMessage } = require("../controller/chatController");
 const { getUsers, getSingleUser, updateReceiver, getReceiverData, getReviewByUser, submitReviewByUser } = require("../controller/GetUsersController");
 const { getOrderInfoByProductId } = require("../controller/getOrderInfoByProductId");
+const { getReviewByProductId } = require("../controller/Review");
+
+const uploadADiscount = require('../controller/uploadADiscount')
+const getDiscountAndOffers = require('../controller/getDiscountAndOffers')
 
 const {
   orderManage,
@@ -28,6 +32,7 @@ router.get("/getAUser/:email", getAUser);
 router.get("/getAllGift", getAllGift);
 router.put("/users/:userId", updateUser);
 
+router.get('/getDiscountData',getDiscountAndOffers) 
 
 // user
 router.get("/all-orders", orderManage);
@@ -35,7 +40,6 @@ router.get("/user-orders/:email", getSpecificUserOrdersList);
 router.patch("/order-status-update/:id", updateOrderStatus);
 router.get("/:giftId", getAGift);
 router.post("/order", order);
-router.get("/:id", getAGift);
 
 // Post put delete gift 
 router.post("/uploadGift", uploadGift);
@@ -52,6 +56,10 @@ router.get("/user/getReceiver/:receiverName", getReceiverData);
 
 // review and rating
 router.get("/user/getReviewer/:email", getReviewByUser)
+router.get("/getAllReviews/:productId", getReviewByProductId)
 router.put("/order/submitReview/:email", submitReviewByUser);
 router.get('/:id/:email', getOrderInfoByProductId);
+
+// Upload & get discount and offers
+router.post('/discount', uploadADiscount)
 module.exports = router;
