@@ -57,4 +57,4 @@ class NotificationClass {
 }
 
 
-module.exports = { NotificationClass };
+module.exports={NotificationClass}

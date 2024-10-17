@@ -1,7 +1,7 @@
 const User = require('../model/userSchema')
 
 const getAUser = async(req,res) => {
- console.log('get user inside the get user',req.params.email);
+//  console.log(req.params.email);
     try {
         const getAUser = await User.findOne({email: req.params.email});
         // console.log("get ", getData)
@@ -11,7 +11,7 @@ const getAUser = async(req,res) => {
             success: true,
             message: "Get a User"
         })
- console.log(getAUser,'user get for role');
+//  console.log(getAUser);
     } catch (error) {
         res.status(400).json({
             message: error.message,

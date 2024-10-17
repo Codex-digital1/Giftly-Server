@@ -68,21 +68,21 @@ require("dotenv").config()
 const mongoose = require("mongoose");
 const router = require("./router/router");
 const port = process.env.PORT || 3000;
-const orderModel = require('./model/orderModelSchema')
 const app = express()
-
-
 const http = require("http");
+
+const orderModel = require('./model/orderModelSchema')
 const { Server } = require('socket.io');
 const SocketIo = require("./chatApp/SocketIo");
 const {NotificationClass} = require('./Notification/notification');
 
 
-// Middleware
+// Middleware 
 app.use(cors({
     origin: [
         "http://localhost:5173",
-        "https://giftly-ba979.web.app"
+        "https://giftly-ba979.web.app",
+        'https://giftlyvirtualstore.vercel.app'
     ],
     credentials: true,
 }));
@@ -118,20 +118,20 @@ app.get("/", async (req, res) => {
 
 // Define the success route
 app.post('/payment/success/:tranId', async (req, res) => {
-    const { tranId } = req.params;
-    console.log('Transaction ID:', tranId);
-    try {
-        const order = await orderModel.findOne({ tran_id: tranId });
-        if (!order) {
-            return res.status(404).json({ message: "Order not found" });
-        }
-        order.payment_status = "Success";
-        await order.save();
-        // Send response based on the success of the order update
-        res.redirect(`http://localhost:5173/payment/success/${tranId}`);
-    } catch (error) {
-        res.status(500).json({ message: "Payment success handling failed", error });
-    }
+  const { tranId } = req.params;
+  console.log('Transaction ID:', tranId);
+  try {
+      const order = await orderModel.findOne({ tran_id: tranId }); 
+      if (!order) {
+          return res.status(404).json({ message: "Order not found" });
+      }
+      order.payment_status = "Success";
+      await order.save(); 
+      // Send response based on the success of the order update
+      res.redirect(`http://localhost:5173/payment/success/${tranId}`);
+  } catch (error) {
+      res.status(500).json({ message: "Payment success handling failed", error });
+  }
 });
 
 // Start the server
@@ -140,4 +140,4 @@ server.listen(port, () => {
 });
 
 // Export the server (or app) as the default export
-module.exports = server;
+module.exports = notificationClass
