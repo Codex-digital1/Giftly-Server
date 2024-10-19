@@ -57,8 +57,9 @@ const order = async (req, res) => {
 
     const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
     sslcz.init(data).then(async (apiResponse) => {
+        console.log(apiResponse);
         const GatewayPageURL = apiResponse.GatewayPageURL;
-
+        console.log(GatewayPageURL);
         // Save the order with product_id
         const newOrder = new orderModel({
             userName: user?.name,
