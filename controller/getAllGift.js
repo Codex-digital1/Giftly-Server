@@ -15,7 +15,7 @@ const getAllGift = async (req, res) => {
        // Apply Price Range filter (make sure to convert to numbers)
        filter.price = { 
            $gte: parseFloat(priceMin) || 0, 
-           $lte: parseFloat(priceMax) || 5000 
+           $lte: parseFloat(priceMax) || 5000000 
        };
    
        // Apply Rating filter (convert to number)
@@ -40,7 +40,7 @@ const getAllGift = async (req, res) => {
         // Query the database with filters
         // console.log(filter);
     let gifts = await giftModel.find(filter);
-    // console.log(gifts.length);
+    console.log(gifts.length);
 
     // Sorting (e.g., sort by price, rating, etc.)
     if (sortBy === 'priceAsc') {

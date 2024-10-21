@@ -13,9 +13,11 @@ const order = async (req, res) => {
     const user = req.body;
 
     // Get product by ID for better security
-    const singleProduct = await giftModel.findById(user?.productId);
+    const singleProduct = await giftModel.findById(user ?.productId);
     if (!singleProduct) {
-        return res.status(404).json({ message: "Product not found" });
+        return res.status(404).json({
+            message: "Product not found"
+        });
     }
     // console.log(singleProduct, 'single product');
     // console.log(singleProduct.brand, 'single product brand'); 
@@ -23,7 +25,7 @@ const order = async (req, res) => {
     const tran_id = new mongoose.Types.ObjectId().toString();
 
     const data = {
-        total_amount: singleProduct?.price,
+        total_amount: singleProduct ?.price,
         currency: 'BDT',
         tran_id: tran_id,
 
@@ -32,18 +34,18 @@ const order = async (req, res) => {
         cancel_url: 'http://localhost:3030/cancel',
         ipn_url: 'http://localhost:3030/ipn',
         shipping_method: 'Courier',
-        product_name: singleProduct?.name || 'Computer.',
+        product_name: singleProduct ?.name || 'Computer.',
         product_category: 'Electronic',
         product_profile: 'general',
-        cus_name: user?.name,
-        cus_email: user?.email,
-        cus_add1: user?.address,
+        cus_name: user ?.name,
+        cus_email: user ?.email,
+        cus_add1: user ?.address,
         cus_add2: 'Dhaka',
         cus_city: 'Dhaka',
         cus_state: 'Dhaka',
         cus_postcode: '1000',
         cus_country: 'Bangladesh',
-        cus_phone: user?.number,
+        cus_phone: user ?.number,
         cus_fax: '01711111111',
         ship_name: 'Customer Name',
         ship_add1: 'Dhaka',
@@ -59,42 +61,47 @@ const order = async (req, res) => {
     sslcz.init(data).then(async (apiResponse) => {
         console.log(apiResponse);
         const GatewayPageURL = apiResponse.GatewayPageURL;
-        console.log(GatewayPageURL);
+        // console.log(GatewayPageURL);
         // Save the order with product_id
         const newOrder = new orderModel({
-            userName: user?.name,
-            userEmail: user?.email,
-            userPhone: user?.number,
+            userName: user ?.name,
+            userEmail: user ?.email,
+            userPhone: user ?.number,
             tran_id: tran_id,
-            productId: user?.productId,
-            product_name: singleProduct?.giftName,
-            product_brand: singleProduct?.brand,
+            productId: user ?.productId,
+            product_name: singleProduct ?.giftName,
+            product_brand: singleProduct ?.brand,
             // product_brand: 'TestBrand',
-            product_image: singleProduct?.giftImage || [], total_amount: singleProduct?.price,
+            product_image: singleProduct ?.giftImage || [],
+            total_amount: singleProduct ?.price,
             payment_status: 'Pending',
             order_status: 'Pending',
             review: {
                 rating: null,
                 comment: null,
                 tran_id: null,
-                ReviewerName:null,
-                ReviewerProfileImage:null,
+                ReviewerName: null,
+                ReviewerProfileImage: null,
                 reviewedAt: null
             },
-          sheduleDate: user?.sheduleDate ? user.sheduleDate : "",
-          isShedule: user?.sheduleDate ? true : false,
+            wrap: user.wrap,
+            message: user.message,
+            scheduleDate: user ?.scheduleDate ? user.scheduleDate : "",
+            isShedule: user ?.sheduleDate ? true : false,
         });
 
 
         // console.log(newOrder, 'New order details ');
 
         const saveGift = await newOrder.save();
-        // console.log(saveGift);
+        console.log(saveGift);
 
         // console.log(singleProduct?.brand, 'Product Brand');
         // console.log(newOrder.product_brand, 'New Order Product Brand');
 
-        res.send({ url: GatewayPageURL });
+        res.send({
+            url: GatewayPageURL
+        });
         // console.log('Redirecting to:', GatewayPageURL);
     });
 };
