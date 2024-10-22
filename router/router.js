@@ -18,6 +18,7 @@ const { getReviewByProductId } = require("../controller/Review");
 
 const uploadADiscount = require('../controller/uploadADiscount')
 const getDiscountAndOffers = require('../controller/getDiscountAndOffers')
+const getSearchSuggestions = require('../controller/getSearchSuggestions')
 
 const {
   orderManage,
@@ -33,6 +34,9 @@ router.get("/getAllGift", getAllGift);
 router.put("/users/:userId", updateUser);
 
 router.get('/getDiscountData',getDiscountAndOffers) 
+
+// getSearchSuggestions
+router.get('/api/gifts/suggestions',getSearchSuggestions) 
 
 // user
 router.get("/all-orders", orderManage);
