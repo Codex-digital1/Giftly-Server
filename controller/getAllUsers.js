@@ -1,9 +1,6 @@
 const User = require('../model/userSchema')
 
 const getAllUsers = async (req, res) => {
-
-    // res.send("Hello world")
-    console.log("All USer get")
     try {
         const getAUser = await User.find();
         res.status(200).json({

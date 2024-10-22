@@ -1,12 +1,8 @@
-const { Server } = require('socket.io');
+// const { Server } = require('socket.io');
 const Chat = require('../model/chatModel');
 
-const SocketIo = (server) => {
-    const io = new Server(server, {
-        cors: {
-            origin: "*"
-        }
-    });
+const SocketIo = (io) => {
+    
 
     // Load previous messages for the room
     const loadMessages = async (socket, sender, receiver) => {

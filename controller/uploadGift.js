@@ -1,29 +1,76 @@
-const giftModel = require("../model/giftModelSchema")
+// const giftModel = require("../model/giftModelSchema")
+
+// const uploadGift = async (req, res) => {
+//     console.log(req.body,'inside the uploadGift');
+
+//     try {   
+//         const uploadGift = new giftModel(req?.body)
+//         const saveGift = await uploadGift.save()
+//         const {notificationClass,hi}=require('../index')
+//         console.log(notificationClass,3,hi);
+//         const re =await notificationClass.newGiftNotification(saveGift.giftName,saveGift._id)
+//         console.log(re);
+//         res.status(200).json({
+//             data: saveGift,
+//             error: false,
+//             success: true,
+//             message: "Gift uploaded successfully"
+//         })
+//         console.log('Post successfully',uploadGift);
+//     } catch (error) {
+//         console.log(error)
+//         res.status(400).json({
+//             message: error.message,
+//             error: true,
+//             success: false  
+//         })
+//     }
+// }
+
+// module.exports = uploadGift;
+
+
+
+
+
+
+const giftModel = require("../model/giftModelSchema");
 
 const uploadGift = async (req, res) => {
-    console.log(req.body,'inside the uploadGift');
+    console.log(req.body, 'inside the uploadGift');
+
     try {   
-        const uploadGift = new giftModel(req?.body)
-        const saveGift = await uploadGift.save()
-        const {notificationClass,hi}=require('../index')
-        console.log(notificationClass,3,hi);
-        const re =await notificationClass.newGiftNotification(saveGift.giftName,saveGift._id)
-        console.log(re);
+        const uploadGift = new giftModel(req?.body);
+        const saveGift = await uploadGift.save();
+
+        // Import notificationClass and hi from index
+        const { notificationClass, hi } = require('../index');
+        console.log('notificationClass:', notificationClass, 3, hi);
+
+        // Check if newGiftNotification exists before calling it
+        if (notificationClass?.newGiftNotification) {
+            const re = await notificationClass.newGiftNotification(saveGift.giftName, saveGift._id);
+            console.log(re);
+        } else {
+            console.log("newGiftNotification method not found");
+        }
+
         res.status(200).json({
             data: saveGift,
             error: false,
             success: true,
             message: "Gift uploaded successfully"
-        })
-        console.log('Post successfully',uploadGift);
+        });
+
+        console.log('Post successfully', uploadGift);
     } catch (error) {
-        console.log(error)
+        console.log(error);
         res.status(400).json({
             message: error.message,
             error: true,
             success: false  
-        })
+        });
     }
-}
+};
 
 module.exports = uploadGift;
