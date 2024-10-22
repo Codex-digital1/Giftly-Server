@@ -19,6 +19,7 @@ const { getReviewByProductId } = require("../controller/Review");
 const uploadADiscount = require('../controller/uploadADiscount')
 const getDiscountAndOffers = require('../controller/getDiscountAndOffers')
 const getSearchSuggestions = require('../controller/getSearchSuggestions')
+const {getUniqueCategories} = require('../controller/getUniqueCategories')
 
 const {
   orderManage,
@@ -37,6 +38,10 @@ router.get('/getDiscountData',getDiscountAndOffers)
 
 // getSearchSuggestions
 router.get('/api/gifts/suggestions',getSearchSuggestions) 
+
+// getUniqueCategories
+router.get('/api/gifts/categories',getUniqueCategories) 
+
 
 // user
 router.get("/all-orders", orderManage);
