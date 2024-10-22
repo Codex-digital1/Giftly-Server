@@ -2,9 +2,7 @@ const User = require("../model/userSchema");
 
 const userRoleChange = async (req, res) => {
     const { email } = req.params;  // Extracting email from the request parameters
-    // const { newRole } = req.body;  // Assuming the new role is passed in the request body
 
-    console.log("User role change request for email:", email);
 
     try {
         // Find the user by email
