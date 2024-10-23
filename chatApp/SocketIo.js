@@ -22,7 +22,7 @@ const SocketIo = (io) => {
     }
 
     io.on("connection", (socket) => {
-        console.log("connected");
+        // console.log("connected");
 
 
         // Join room and load previous chat messages
@@ -61,7 +61,7 @@ const SocketIo = (io) => {
 
         // Handle disconnection
         socket.on("disconnect", () => {
-            console.log("disconnect");
+            // console.log("disconnect");
         });
     });
 };

@@ -1,4 +1,4 @@
-// const { Server } = require('socket.io');
+const User =require('../model/userSchema')
 
 const Notification = require('../model/NotificationSchema')
 
@@ -11,7 +11,8 @@ class NotificationClass {
   sendAll() {
     this.io.on('connection', async (socket) => {
       console.log('12 ,A user connected:', socket.id);
-      const notifications = await Notification.find()
+      const notifications = await Notification.find().sort({ createdAt: -1 }) 
+      .limit(7);
       // console.log(notifications);
       // Emit a real-time notification when the user connects
       socket.emit('initialNotifications', notifications);
@@ -32,7 +33,7 @@ class NotificationClass {
     const notification = new Notification({
       title: 'New Gift Added!',
       message: `A new gift, ${giftName}, has been added to our store. Check it out!`,
-      gift: giftId,
+      giftId: giftId,
       actionType: 'new_gift'
     });
     await notification.save();
@@ -40,18 +41,24 @@ class NotificationClass {
     return notification
 
   }
-  async updateOrderStatusNotification(orderId, userId, newStatus) {
+  async updateOrderStatusNotification(orderId, userEmail, newStatus) {
+    const user = await User.findOne({ email: userEmail });
+    if (!user) {
+      throw new Error(`No user found with email: ${userEmail}`);
+    }
 
     // Notify the user about the status update
     const notification = new Notification({
-      user: userId,
+      user: user._id,
       title: 'Order Status Updated',
       message: `Your order #${orderId} status has been updated to ${newStatus}.`,
+      orderId: orderId,
+      actionType:"order_update"
     });
-    await notification.save();
+    // await notification.save();
 
     // Emit real-time notification to the user
-    this.io.to(userId).emit('receiveNotification', notification);
+    this.io.to(user._id).emit('receiveNotification', notification);
   }
 
 }

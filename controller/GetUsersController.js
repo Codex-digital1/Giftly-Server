@@ -18,7 +18,7 @@ exports.getSingleUser = async (req, res) => {
     try {
         const email = req.params.email;  // Get the email from URL parameters
         const user = await User.findOne({ email });  // Use `findOne` to get a single user
-        console.log(user, "current")
+        // console.log(user, "current")
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
@@ -34,7 +34,7 @@ exports.getReceiverData = async (req, res) => {
     try {
         const receiverName = req.params.receiverName;
         const receiverData = await User.findOne({ name: receiverName });
-        console.log(receiverData, "receiver")
+        // console.log(receiverData, "receiver")
         if (!receiverData) {
             return res.status(404).json({ message: "User not found" });
         }
@@ -92,7 +92,7 @@ exports.getReviewByUser = async (req, res) => {
 exports.submitReviewByUser = async (req, res) => {
     const userEmail = req.params.email; // User email from the route params
     const { rating, comment, tran_id,ReviewerName,ReviewerProfileImage } = req.body; // Review details from the request body
-    console.log("reviewer",ReviewerProfileImage)
+    // console.log("reviewer",ReviewerProfileImage)
 
 
     // Validate the request body
@@ -121,7 +121,7 @@ exports.submitReviewByUser = async (req, res) => {
             { new: true }
         );
 
-        console.log('updated', order)
+        // console.log('updated', order)
 
         if (!order) {
             return res.status(404).json({ message: "No delivered order found for this user or invalid email" });

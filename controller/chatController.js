@@ -3,7 +3,7 @@ const Chat = require("../model/chatModel");
 // Route to get chats between two users (sender and receiver)
 exports.getAllMessage = async (req, res) => {
   const { sender, receiver } = req.query; // Get sender and receiver from query params
-  console.log("sender",sender)
+  // console.log("sender",sender)
   try {
     const chats = await Chat.find({
       $or: [
