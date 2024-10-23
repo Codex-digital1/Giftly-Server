@@ -17,6 +17,16 @@ console.log(newDiscount);
 
     // Save the discount to the database
     const saveDiscount = await newDiscount.save();
+    // Import notificationClass and hi from index
+    const { notificationClass} = require('../index');
+    // Check if newGiftNotification exists before calling it
+    if (notificationClass?.newDiscountNotification) {
+        await notificationClass.newDiscountNotification(coupon,
+          discount,
+          title,);
+    } else {
+        console.log("newGiftNotification method not found");
+    }
 
     // Send success response
     res.status(200).json({

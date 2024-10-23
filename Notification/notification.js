@@ -41,7 +41,19 @@ class NotificationClass {
     return notification
 
   }
+  async newDiscountNotification(coupon,discount,title,) {
+    const notification = new Notification({
+      title: title,
+      message: `Enjoy exclusive ${discount}% discounts and exciting offers on your favorite gifts use coupon ${coupon}! 🛍️✨`,
+      actionType: 'promo_offer'
+    });
+    await notification.save();
+    this.io.emit('newNotification', notification);
+    return notification
+
+  }
   async updateOrderStatusNotification(orderId, userEmail, newStatus) {
+    console.log(orderId, userEmail, newStatus);
     const user = await User.findOne({ email: userEmail });
     if (!user) {
       throw new Error(`No user found with email: ${userEmail}`);
