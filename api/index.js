@@ -1,4 +1,4 @@
-const { server } = require('../index'); // Import the Express server
+const { server } = require('../index');  
 module.exports = (req, res) => {
-  server.emit('request', req, res); // Handle incoming requests
+  server.emit('request', req, res);  
 };

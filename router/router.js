@@ -52,6 +52,7 @@ router.get('/api/gifts/categories',getUniqueCategories)
 router.get("/all-orders", orderManage);
 router.get("/allUsers", getAllUsers);
 router.get("/user-orders/:email", getSpecificUserOrdersList);
+router.patch("/order-status-update/:id", updateOrderStatus);
 router.patch("/user-orders/:email", getSpecificUserOrdersList);
 router.patch("/manage-users/:email", userRoleChange);
 router.get("/:giftId", getAGift);
