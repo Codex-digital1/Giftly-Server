@@ -12,6 +12,9 @@ const notificationSchema = new mongoose.Schema({
   giftId: {
     type: String,
   },
+  orderId: {
+    type: String,
+  },
   title: {
     type: String,
   },

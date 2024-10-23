@@ -47,10 +47,21 @@ const updateOrderStatus = async (req, res) => {
       order.sheduleDate = "";
     }
 
+
     await order.save();
+    console.log(52,order._id,order.userEmail ,status || order.order_status);
+    const { notificationClass} = require('../index');
+        // Check if newGiftNotification exists before calling it
+        if (notificationClass?.updateOrderStatusNotification) {
+          // orderId, userId, newStatus
+            await notificationClass.updateOrderStatusNotification(order._id,order.userEmail ,status || order.order_status);
+        } else {
+            console.log("newGiftNotification method not found");
+        }
     return res
       .status(200)
-      .json({ order, message: "Status Updated Successful", success: true });
+      .json({ order, message: "Status Updated Successful", 
+        success: true });
   } catch (error) {
     console.error("Error updateOrderStatus:", error);
     res.status(500).json({ error: error.message });

@@ -1,11 +1,11 @@
 const discount = require('../model/discountAndOffersSchema');
 
 const getDiscountAndOffers = async (req, res) => {
-    console.log('inside the getDiscountAndOffers controller');
+    // console.log('inside the getDiscountAndOffers controller');
     try {
         const getDiscount = await discount.find();
         
-        console.log(getDiscount, 'discount data fetched successfully'); // Log fetched data
+        // console.log(getDiscount, 'discount data fetched successfully'); // Log fetched data
         
         res.status(200).json({
             data: getDiscount,
