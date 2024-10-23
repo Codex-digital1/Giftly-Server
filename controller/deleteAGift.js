@@ -1,7 +1,8 @@
 const giftModel = require("../model/giftModelSchema")
 
 const deleteAGift = async (req, res) => {
-    console.log(req.params.id);
+    console.log(req.params.giftId);
+   
     try {
         const deletedGift = await giftModel.findByIdAndDelete(req.params.giftId);
 

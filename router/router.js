@@ -3,6 +3,7 @@ const router = express.Router();
 
 const uploadGift = require("../controller/uploadGift");
 const getAllGift = require("../controller/getAllGift");
+const getAllGiftForHome = require("../controller/getAllGiftForHome");
 const getAGift = require("../controller/getAGift");
 const order = require("../controller/order")
 const updateAGift = require("../controller/updateAGift");
@@ -32,6 +33,7 @@ const {
 router.post("/users", userCreate);
 router.get("/getAUser/:email", getAUser);
 router.get("/getAllGift", getAllGift);
+router.get("/getAllGiftForHome", getAllGiftForHome);
 router.put("/users/:userId", updateUser);
 
 router.get('/getDiscountData',getDiscountAndOffers) 
@@ -53,7 +55,7 @@ router.post("/order", order);
 // Post put delete gift 
 router.post("/uploadGift", uploadGift);
 router.put("/:giftId", updateAGift);
-router.delete("/:giftId", deleteAGift);
+router.delete("/gifts/delete/:giftId", deleteAGift);
 
 
 // chat feature
