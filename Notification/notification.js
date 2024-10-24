@@ -54,6 +54,7 @@ class NotificationClass {
   }
   async updateOrderStatusNotification(orderId, userEmail, newStatus) {
     console.log(orderId, userEmail, newStatus);
+ 
     const user = await User.findOne({ email: userEmail });
     if (!user) {
       throw new Error(`No user found with email: ${userEmail}`);
