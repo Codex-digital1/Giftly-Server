@@ -30,7 +30,11 @@ const server = http.createServer(app);
 // Create a single Socket.IO instance
 const io = new Server(server, {
   cors: {
-    origin: "*"
+   origin: [
+      "http://localhost:5173",
+      "https://giftly-ba979.web.app",
+      "https://giftlyvirtualstore.vercel.app"
+    ],
   }
 });
 
@@ -41,7 +45,7 @@ mongoose.connect(process.env.MONGO_URI, { dbName: 'Giftly-server-db' })
 
 // Routes
 app.use("/", router);
-
+SocketIo(io);
 
 app.post('/payment/success/:tranId', async (req, res) => {
   const { tranId } = req.params;
@@ -64,4 +68,4 @@ server.listen(port, () => {
 });
 
 // Export the server for Vercel
-module.exports = { server,notificationClass };
+module.exports = { server ,io};

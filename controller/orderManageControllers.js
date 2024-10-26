@@ -50,7 +50,7 @@ const updateOrderStatus = async (req, res) => {
 
     await order.save();
     console.log(52,order._id,order.userEmail ,status || order.order_status);
-    const { notificationClass} = require('../index');
+    const { notificationClass} = require('../Notification/notification');
         // Check if newGiftNotification exists before calling it
         if (notificationClass?.updateOrderStatusNotification) {
           // orderId, userId, newStatus

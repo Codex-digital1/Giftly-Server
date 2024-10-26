@@ -1,4 +1,4 @@
-const User =require('../model/userSchema')
+const User = require('../model/userSchema')
 
 const Notification = require('../model/NotificationSchema')
 
@@ -11,8 +11,10 @@ class NotificationClass {
   sendAll() {
     this.io.on('connection', async (socket) => {
       console.log('12 ,A user connected:', socket.id);
-      const notifications = await Notification.find().sort({ createdAt: -1 }) 
-      .limit(7);
+      const notifications = await Notification.find().sort({
+          createdAt: -1
+        })
+        .limit(7);
       // console.log(notifications);
       // Emit a real-time notification when the user connects
       socket.emit('initialNotifications', notifications);
@@ -41,7 +43,7 @@ class NotificationClass {
     return notification
 
   }
-  async newDiscountNotification(coupon,discount,title,) {
+  async newDiscountNotification(coupon, discount, title, ) {
     const notification = new Notification({
       title: title,
       message: `Enjoy exclusive ${discount}% discounts and exciting offers on your favorite gifts use coupon ${coupon}! 🛍️✨`,
@@ -54,8 +56,10 @@ class NotificationClass {
   }
   async updateOrderStatusNotification(orderId, userEmail, newStatus) {
     console.log(orderId, userEmail, newStatus);
- 
-    const user = await User.findOne({ email: userEmail });
+
+    const user = await User.findOne({
+      email: userEmail
+    });
     if (!user) {
       throw new Error(`No user found with email: ${userEmail}`);
     }
@@ -66,7 +70,7 @@ class NotificationClass {
       title: 'Order Status Updated',
       message: `Your order #${orderId} status has been updated to ${newStatus}.`,
       orderId: orderId,
-      actionType:"order_update"
+      actionType: "order_update"
     });
     // await notification.save();
 
@@ -76,5 +80,9 @@ class NotificationClass {
 
 }
 
+const notificationClass = new NotificationClass(require('../index').io);
+notificationClass.sendAll();
 
-module.exports={NotificationClass}
+module.exports = {
+  notificationClass
+}

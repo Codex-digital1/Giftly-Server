@@ -45,9 +45,7 @@ const uploadGift = async (req, res) => {
         // console.log(saveGift);
 
         // Import notificationClass and hi from index
-        const {
-            notificationClass
-        } = require('../index');
+        const {notificationClass} = require('../Notification/notification');
         // Check if newGiftNotification exists before calling it
         if (notificationClass?.newGiftNotification) {
             await notificationClass.newGiftNotification(saveGift.giftName, saveGift._id);

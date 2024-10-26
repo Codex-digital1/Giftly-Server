@@ -1,5 +1,4 @@
 const orderModel = require("../model/orderModelSchema");
-const orderModel = require("../model/orderModelSchema");
 const User  = require("../model/userSchema")
 
 
@@ -33,7 +32,6 @@ exports.getSingleUser = async (req, res) => {
 
 exports.getReceiverData = async (req, res) => {
     try {
-        const receiverName = req.params.receiverName;
         const receiverName = req.params.receiverName;
         const receiverData = await User.findOne({ name: receiverName });
         // console.log(receiverData, "receiver")
