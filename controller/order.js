@@ -1,6 +1,7 @@
 const SSLCommerzPayment = require("sslcommerz-lts");
 const mongoose = require("mongoose");
 require('dotenv').config();
+require('dotenv').config();
 const giftModel = require("../model/giftModelSchema");
 const orderModel = require("../model/orderModelSchema");
 const store_id = process.env.STORE_ID;
@@ -11,6 +12,7 @@ const order = async (req, res) => {
     const localORProduction = process.env.VITE_SUCCESS_URL || 'http://localhost:3000';
 
     const user = req.body;
+
 
     // Get product by ID for better security
     const singleProduct = await giftModel.findById(user ?.productId);

@@ -42,15 +42,6 @@ mongoose.connect(process.env.MONGO_URI, { dbName: 'Giftly-server-db' })
 // Routes
 app.use("/", router);
 
-// Initialize SocketIo and Notifications
-SocketIo(io);
-const notificationClass = new NotificationClass(io);
-notificationClass.sendAll();
-
-// Define Routes
-app.get("/", async (req, res) => {
-  res.send("Giftly db is connected");
-});
 
 app.post('/payment/success/:tranId', async (req, res) => {
   const { tranId } = req.params;

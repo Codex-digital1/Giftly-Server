@@ -39,13 +39,15 @@ const giftModel = require("../model/giftModelSchema");
 const uploadGift = async (req, res) => {
     console.log(req.body, 'inside the uploadGift');
 
-    try {   
+    try {
         const uploadGift = new giftModel(req?.body);
         const saveGift = await uploadGift.save();
         // console.log(saveGift);
 
         // Import notificationClass and hi from index
-        const { notificationClass} = require('../index');
+        const {
+            notificationClass
+        } = require('../index');
         // Check if newGiftNotification exists before calling it
         if (notificationClass?.newGiftNotification) {
             await notificationClass.newGiftNotification(saveGift.giftName, saveGift._id);
@@ -66,7 +68,7 @@ const uploadGift = async (req, res) => {
         res.status(400).json({
             message: error.message,
             error: true,
-            success: false  
+            success: false
         });
     }
 };

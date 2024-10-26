@@ -31,13 +31,26 @@ const {
   getSpecificUserOrdersList,
 } = require("../controller/orderManageControllers");
 
+// middleware
+const createToken=require('../middleware/createToken')
+const removeToken=require('../middleware/removeToken')
+const verifyToken=require('../middleware/verifyToken')
+const verifyAdmin=require('../middleware/verifyAdmin')
+
+
+// middleware route
+router.post('/jwt', createToken);
+ // Logout
+router.get('/logout', removeToken);
+
+
 
 // Routes
 router.post("/users", userCreate);
 router.get("/getAUser/:email", getAUser);
 router.get("/getAllGift", getAllGift);
 router.get("/getAllGiftForHome", getAllGiftForHome);
-router.put("/users/:userId", updateUser);
+router.put("/users/:userId",verifyToken, updateUser);
 
 router.get('/getDiscountData',getDiscountAndOffers) 
 
