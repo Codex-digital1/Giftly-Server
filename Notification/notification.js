@@ -10,7 +10,7 @@ class NotificationClass {
 
   sendAll() {
     this.io.on('connection', async (socket) => {
-      console.log('12 ,A user connected:', socket.id);
+      // console.log('12 ,A user connected:', socket.id);
       const notifications = await Notification.find().sort({ createdAt: -1 }) 
       .limit(7);
       // console.log(notifications);
@@ -25,7 +25,7 @@ class NotificationClass {
 
       // Handle disconnection
       socket.on('disconnect', () => {
-        console.log('User disconnected:', socket.id);
+        // console.log('User disconnected:', socket.id);
       });
     });
   }
@@ -53,7 +53,7 @@ class NotificationClass {
 
   }
   async updateOrderStatusNotification(orderId, userEmail, newStatus) {
-    console.log(orderId, userEmail, newStatus);
+    // console.log(orderId, userEmail, newStatus);
  
     const user = await User.findOne({ email: userEmail });
     if (!user) {
