@@ -6,11 +6,22 @@ const Notification = require('../model/NotificationSchema')
 class NotificationClass {
   constructor(io) {
     this.io = io;
+    this.io.on('connection', (socket) => {
+      console.log('A user connected:', socket.id);
+    
+      socket.on('joinRoom', (userId) => {
+        socket.join(userId); // Join the user's specific room
+      });
+    })
+  }
+  saveUserInIo(){
+
   }
 
   sendAll() {
+    // console.log(this.io);
     this.io.on('connection', async (socket) => {
-      console.log('12 ,A user connected:', socket.id);
+      // console.log('12 ,A user connected:', socket.id);
       const notifications = await Notification.find().sort({
           createdAt: -1
         })
@@ -55,7 +66,7 @@ class NotificationClass {
 
   }
   async updateOrderStatusNotification(orderId, userEmail, newStatus) {
-    console.log(orderId, userEmail, newStatus);
+    // console.log(orderId, userEmail, newStatus);
 
     const user = await User.findOne({
       email: userEmail
@@ -80,9 +91,5 @@ class NotificationClass {
 
 }
 
-const notificationClass = new NotificationClass(require('../index').io);
-notificationClass.sendAll();
 
-module.exports = {
-  notificationClass
-}
+module.exports = NotificationClass

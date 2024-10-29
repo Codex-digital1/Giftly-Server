@@ -18,7 +18,7 @@ console.log(newDiscount);
     // Save the discount to the database
     const saveDiscount = await newDiscount.save();
     // Import notificationClass and hi from index
-    const { notificationClass} = require('../Notification/notification');
+    const { notificationClass} = require('../index');
     // Check if newGiftNotification exists before calling it
     if (notificationClass?.newDiscountNotification) {
         await notificationClass.newDiscountNotification(coupon,
