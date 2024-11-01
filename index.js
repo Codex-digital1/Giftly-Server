@@ -8,8 +8,8 @@ const port = process.env.PORT || 3000;
 const orderModel = require('./model/orderModelSchema');
 const { Server } = require('socket.io');
 const SocketIo = require("./chatApp/SocketIo");
-const { NotificationClass } = require('./Notification/notification');
-
+const  NotificationClass  = require('./Notification/notification');
+const morgan = require('morgan');
 // Initialize Express
 const app = express();
 
@@ -23,6 +23,8 @@ app.use(cors({
   credentials: true,
 }));
 app.use(express.json());
+// Use morgan middleware
+app.use(morgan('dev'));
 
 // Create HTTP Server
 const server = http.createServer(app);
@@ -30,7 +32,11 @@ const server = http.createServer(app);
 // Create a single Socket.IO instance
 const io = new Server(server, {
   cors: {
-    origin: "*"
+   origin: [
+      "http://localhost:5173",
+      "https://giftly-ba979.web.app",
+      "https://giftlyvirtualstore.vercel.app"
+    ],
   }
 });
 
@@ -41,16 +47,9 @@ mongoose.connect(process.env.MONGO_URI, { dbName: 'Giftly-server-db' })
 
 // Routes
 app.use("/", router);
-
-// Initialize SocketIo and Notifications
 SocketIo(io);
-const notificationClass = new NotificationClass(io);
+const notificationClass = new NotificationClass(io)
 notificationClass.sendAll();
-
-// Define Routes
-app.get("/", async (req, res) => {
-  res.send("Giftly db is connected");
-});
 
 app.post('/payment/success/:tranId', async (req, res) => {
   const { tranId } = req.params;
@@ -73,4 +72,4 @@ server.listen(port, () => {
 });
 
 // Export the server for Vercel
-module.exports = { server,notificationClass };
+module.exports = { server ,notificationClass};
