@@ -68,7 +68,7 @@ router.post("/users", userCreate);
 router.get("/getAUser/:email", getAUser);
 router.get("/getAllGift", getAllGift);
 router.get("/getAllGiftForHome", getAllGiftForHome);
-router.put("/users/:userId", verifyToken, updateUser);
+router.put("/users/:userId", updateUser);
 
 router.get('/getDiscountData', getDiscountAndOffers)
 
