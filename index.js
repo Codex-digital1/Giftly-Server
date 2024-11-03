@@ -18,7 +18,8 @@ app.use(cors({
   origin: [
     "http://localhost:5173",
     "https://giftly-ba979.web.app",
-    "https://giftlyvirtualstore.vercel.app"
+    "https://giftlyvirtualstore.vercel.app",
+    'https://giftly-2.vercel.app'
   ],
   credentials: true,
 }));
@@ -35,7 +36,8 @@ const io = new Server(server, {
    origin: [
       "http://localhost:5173",
       "https://giftly-ba979.web.app",
-      "https://giftlyvirtualstore.vercel.app"
+      "https://giftlyvirtualstore.vercel.app",
+      "https://giftly-2.vercel.app"
     ],
   }
 });
@@ -66,6 +68,9 @@ app.post('/payment/success/:tranId', async (req, res) => {
     res.status(500).json({ message: "Payment success handling failed", error });
   }
 });
+app.get('/',(req,res)=>{
+res.json('Giftly is Running')
+})
 // Start the server
 server.listen(port, () => {
     console.log(`Giftly is running on port ${port}`);
