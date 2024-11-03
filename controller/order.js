@@ -1,6 +1,7 @@
 const SSLCommerzPayment = require("sslcommerz-lts");
 const mongoose = require("mongoose");
 require('dotenv').config();
+require('dotenv').config();
 const giftModel = require("../model/giftModelSchema");
 const orderModel = require("../model/orderModelSchema");
 const store_id = process.env.STORE_ID;
@@ -12,8 +13,9 @@ const order = async (req, res) => {
 
     const user = req.body;
 
+console.log(user);
     // Get product by ID for better security
-    const singleProduct = await giftModel.findById(user ?.productId);
+    const singleProduct = await giftModel.findById(user?.productIds);
     if (!singleProduct) {
         return res.status(404).json({
             message: "Product not found"
@@ -25,7 +27,7 @@ const order = async (req, res) => {
     const tran_id = new mongoose.Types.ObjectId().toString();
 
     const data = {
-        total_amount: singleProduct ?.price,
+        total_amount: user.total,
         currency: 'BDT',
         tran_id: tran_id,
 
@@ -73,7 +75,7 @@ const order = async (req, res) => {
             product_brand: singleProduct ?.brand,
             // product_brand: 'TestBrand',
             product_image: singleProduct ?.giftImage || [],
-            total_amount: singleProduct ?.price,
+            total_amount: user.total,
             payment_status: 'Pending',
             order_status: 'Pending',
             review: {

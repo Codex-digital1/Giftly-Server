@@ -66,7 +66,18 @@ const giftSchema = mongoose.Schema(
     },
   },
   { timestamps: true }
+  
 );
+// Create a text index for giftName and description
+giftSchema.index({ giftName: 'text', description: 'text' });
+
+// Create individual field indexes
+giftSchema.index({ category: 1 });
+giftSchema.index({ price: 1 });
+giftSchema.index({ rating: 1 });
+
+// Create a compound index for category and price
+giftSchema.index({ category: 1, price: 1 });
 
 const giftModel = mongoose.model("gifts", giftSchema);
 

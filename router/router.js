@@ -13,17 +13,33 @@ const userCreate = require("../controller/userCreate");
 const getAUser = require('../controller/getAUser')
 const updateUser = require("../controller/updateUser");
 const userRoleChange = require("../controller/userRole");
- 
 
-const { getAllMessage } = require("../controller/chatController");
-const { getUsers, getSingleUser, updateReceiver, getReceiverData, getReviewByUser, submitReviewByUser } = require("../controller/GetUsersController");
-const { getOrderInfoByProductId } = require("../controller/getOrderInfoByProductId");
-const { getReviewByProductId } = require("../controller/Review");
+
+
+const {
+  getAllMessage
+} = require("../controller/chatController");
+const {
+  getUsers,
+  getSingleUser,
+  updateReceiver,
+  getReceiverData,
+  getReviewByUser,
+  submitReviewByUser
+} = require("../controller/GetUsersController");
+const {
+  getOrderInfoByProductId
+} = require("../controller/getOrderInfoByProductId");
+const {
+  getReviewByProductId
+} = require("../controller/Review");
 
 const uploadADiscount = require('../controller/uploadADiscount')
 const getDiscountAndOffers = require('../controller/getDiscountAndOffers')
 const getSearchSuggestions = require('../controller/getSearchSuggestions')
-const {getUniqueCategories} = require('../controller/getUniqueCategories')
+const {
+  getUniqueCategories
+} = require('../controller/getUniqueCategories')
 
 const {
   orderManage,
@@ -31,21 +47,36 @@ const {
   getSpecificUserOrdersList,
 } = require("../controller/orderManageControllers");
 
+// middleware
+const createToken = require('../middleware/createToken')
+const removeToken = require('../middleware/removeToken')
+const verifyToken = require('../middleware/verifyToken')
+const verifyAdmin = require('../middleware/verifyAdmin')
+
+
+// Feedback
+router.get('/testimonials/feedback',require('../controller/getAllFeedback'))
+// middleware route
+router.post('/jwt', createToken);
+// Logout
+router.get('/logout', removeToken);
+
+
 
 // Routes
 router.post("/users", userCreate);
 router.get("/getAUser/:email", getAUser);
 router.get("/getAllGift", getAllGift);
 router.get("/getAllGiftForHome", getAllGiftForHome);
-router.put("/users/:userId", updateUser);
+router.put("/users/:userId", verifyToken, updateUser);
 
-router.get('/getDiscountData',getDiscountAndOffers) 
+router.get('/getDiscountData', getDiscountAndOffers)
 
 // getSearchSuggestions
-router.get('/api/gifts/suggestions',getSearchSuggestions) 
+router.get('/api/gifts/suggestions', getSearchSuggestions)
 
 // getUniqueCategories
-router.get('/api/gifts/categories',getUniqueCategories) 
+router.get('/api/gifts/categories', getUniqueCategories)
 
 
 // user
@@ -79,4 +110,6 @@ router.get('/:id/:email', getOrderInfoByProductId);
 
 // Upload & get discount and offers
 router.post('/discount', uploadADiscount)
+// router.get('/testimonials/feedback', require("../controller/getAllFeedback"));
+
 module.exports = router;

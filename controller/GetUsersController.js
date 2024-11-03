@@ -1,5 +1,5 @@
 const orderModel = require("../model/orderModelSchema");
-const User = require("../model/userSchema")
+const User  = require("../model/userSchema")
 
 
 exports.getUsers = async (req, res) => {
@@ -54,6 +54,7 @@ exports.updateReceiver = async (req, res) => {
 
         // Find user by ID and update the receiver field
         const updatedUser = await User.findByIdAndUpdate(
+            userId,
             userId,
             { $set: { "chat.receiver": receiver } },  // Update receiver in the chat object
             { new: true }  // Return the updated user document

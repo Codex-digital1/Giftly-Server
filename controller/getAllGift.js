@@ -3,6 +3,9 @@ const giftModel = require("../model/giftModelSchema");
 
 const getAllGift = async (req, res) => {
     const { category, priceMin, priceMax, rating, availability, sortBy, search } = req?.query;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 12;
+    const skip = (page - 1) * limit;
     // console.log(req.query);
        // Create a filter object
        let filter = {};
@@ -26,21 +29,19 @@ const getAllGift = async (req, res) => {
        // Apply Availability filter (skip if 'all' is selected)
        if (availability && availability !== 'all') {
            filter.availability = availability;
-       }
+       
+        }
    
        // Apply Search filter if provided
-       if (search) {
-           filter.$or = [
-               { giftName: { $regex: search, $options: 'i' } },
-               { description: { $regex: search, $options: 'i' } }
-           ];
+       if (search) { 
+        filter.$text = { $search: search };
        }
     try {
 
         // Query the database with filters
         // console.log(filter);
-    let gifts = await giftModel.find(filter);
-    console.log(gifts.length);
+    let gifts = await giftModel.find(filter).skip(skip).limit(limit);
+    // console.log(gifts.length);
 
     // Sorting (e.g., sort by price, rating, etc.)
     if (sortBy === 'priceAsc') {
