@@ -86,8 +86,8 @@ const getSpecificUserOrdersList = async (req, res) => {
   try {
 
     // Get Order By ID
-    const orders = await Order.find({userEmail:email}).skip(skip).limit(limit);;
-console.log(orders.length);
+    const orders = await Order.find({userEmail:email}).skip(skip).limit(limit);
+// console.log(orders.length);
     // Validation
     if(!orders) return res.status(404).json({message: 'Order Not Found', success:false});
     return res.status(200).json({orders});
