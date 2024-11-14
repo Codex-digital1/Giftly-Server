@@ -78,15 +78,19 @@ const getSpecificUserOrdersList = async (req, res) => {
 
   // Get Value From Params
   const {email} = req.params
+  const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 12;
+    const skip = (page - 1) * limit;
+
 
   try {
 
     // Get Order By ID
-    const orders = await Order.find({userEmail:email});
-
+    const orders = await Order.find({userEmail:email}).skip(skip).limit(limit);
+// console.log(orders.length);
     // Validation
     if(!orders) return res.status(404).json({message: 'Order Not Found', success:false});
-    return res.status(200).json(orders);
+    return res.status(200).json({orders});
   } catch (error) {
     console.error("Error updateOrderStatus:", error);
     res.status(500).json({ error: error.message });

@@ -29,14 +29,12 @@ const getAllGift = async (req, res) => {
        // Apply Availability filter (skip if 'all' is selected)
        if (availability && availability !== 'all') {
            filter.availability = availability;
-       }
+       
+        }
    
        // Apply Search filter if provided
        if (search) { 
-           filter.$or = [
-               { giftName: { $regex: search, $options: 'i' } },
-               { description: { $regex: search, $options: 'i' } }
-           ];
+        filter.$text = { $search: search };
        }
     try {
 
