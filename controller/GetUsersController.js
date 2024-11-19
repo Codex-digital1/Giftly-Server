@@ -57,9 +57,7 @@ exports.updateReceiver = async (req, res) => {
         // Find user by ID and update the receiver field
         const updatedUser = await User.findByIdAndUpdate(
             userId,
-            userId,
-            { $set: { "chat.receiver": receiver } },  // Update receiver in the chat object
-            { new: true }  // Return the updated user document
+            { $set: { "chat.receiver": receiver } }
         );
 
         if (!updatedUser) {
