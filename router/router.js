@@ -25,7 +25,9 @@ const {
   updateReceiver,
   getReceiverData,
   getReviewByUser,
-  submitReviewByUser
+  submitReviewByUser,
+  getAllReview,
+  uploadTestimonial
 } = require("../controller/GetUsersController");
 const {
   getOrderInfoByProductId
@@ -104,6 +106,10 @@ router.get("/user/getReceiver/:receiverName", getReceiverData);
 
 // review and rating
 router.get("/user/getReviewer/:email", getReviewByUser)
+
+router.post('/gifts/uploadTestimonial', uploadTestimonial);
+router.get('/gifts/getReviews', getAllReview);
+
 router.get("/getAllReviews/:productId", getReviewByProductId)
 router.put("/order/submitReview/:email", submitReviewByUser);
 router.get('/:id/:email', getOrderInfoByProductId);

@@ -23,6 +23,10 @@ const feedbackSchema = new mongoose.Schema({
   reviewedAt: {
     type: Date,
     default: null
+  },
+  ReviewerId: {
+    type: String,
+    default: null
   }
 });
 const Feedback = mongoose.model('Feedback', feedbackSchema);
