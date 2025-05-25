@@ -9,11 +9,10 @@ const store_passwd = process.env.STORE_PASS;
 const is_live = false; // true for live, false for sandbox
 
 const order = async (req, res) => {
-    const localORProduction = process.env.VITE_SUCCESS_URL || 'http://localhost:3000';
+    const localORProduction = process.env.VITE_SUCCESS_URL || 'http://localhost:5173';
 
     const user = req.body;
 
-console.log(user);
     // Get product by ID for better security
     const singleProduct = await giftModel.findById(user?.productIds);
     if (!singleProduct) {
@@ -31,7 +30,7 @@ console.log(user);
         currency: 'BDT',
         tran_id: tran_id,
 
-        success_url: `https://giftly-ba979.web.app/payment/success/${tran_id}`,
+        success_url: `${localORProduction}/payment/success/${tran_id}`,
         fail_url: 'http://localhost:3030/fail',
         cancel_url: 'http://localhost:3030/cancel',
         ipn_url: 'http://localhost:3030/ipn',
@@ -61,7 +60,7 @@ console.log(user);
 
     const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
     sslcz.init(data).then(async (apiResponse) => {
-        console.log(apiResponse);
+        // console.log(apiResponse);
         const GatewayPageURL = apiResponse.GatewayPageURL;
         // console.log(GatewayPageURL);
         // Save the order with product_id
