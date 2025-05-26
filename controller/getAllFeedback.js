@@ -2,11 +2,11 @@ const Feedback = require("../model/feedbackModal");
 
 
 const getAllFeedback = async (req, res) => {
-    console.log('feedback');
+    // console.log('feedback');
     
     try {
     let feedback = await Feedback.find();
-    console.log(feedback);
+    // console.log(feedback);
         res.status(200).json({
             data: feedback,
             error: false,

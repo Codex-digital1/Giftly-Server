@@ -162,7 +162,7 @@ exports.uploadTestimonial = async (req, res) => {
         }
 
         const existingTestimonial = await Feedback.findOne({ ReviewerId: _id });
-        console.log("167", existingTestimonial)
+        // console.log("167", existingTestimonial)
         if (existingTestimonial) {
             return res.status(400).json({ message: "This testimonial has already been uploaded." });
         }
