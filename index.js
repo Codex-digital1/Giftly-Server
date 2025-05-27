@@ -10,7 +10,7 @@ const { Server } = require("socket.io");
 const SocketIo = require("./chatApp/SocketIo");
 const NotificationClass = require("./Notification/notification");
 const morgan = require("morgan");
-const localORProduction = process.env.VITE_SUCCESS_URL || 'http://localhost:5173';
+const localORProduction = process.env.CLIENT_BASE_URL || 'http://localhost:5173';
 // Initialize Express
 const app = express();
 
@@ -60,8 +60,8 @@ const notificationClass = new NotificationClass(io);
 notificationClass.sendAll();
 
 app.post("/payment/success/:tranId", async (req, res) => {
-  const { tranId } = req.params;
-  console.log("Transaction ID:", tranId);
+  const { tranId } = req?.params;
+  // console.log("Transaction ID:", tranId);
   try {
     const order = await orderModel.findOne({ tran_id: tranId });
     if (!order) {

@@ -53,7 +53,9 @@ const {
 const createToken = require('../middleware/createToken')
 const removeToken = require('../middleware/removeToken')
 const verifyToken = require('../middleware/verifyToken')
-const verifyAdmin = require('../middleware/verifyAdmin')
+const verifyAdmin = require('../middleware/verifyAdmin');
+const OrderController = require("../controller/Orders");
+const ReviewController = require("../controller/Review/review");
 
 
 // Feedback
@@ -104,18 +106,27 @@ router.get("/user/getUser/:email", getSingleUser)
 router.put("/user/updateReceiver/:id", updateReceiver);
 router.get("/user/getReceiver/:receiverName", getReceiverData);
 
+
+// review related routes (new)
+router.get("/all-order/products", OrderController.getAllOrderWithProducts)
+router.get("/order/:email", OrderController.getAllOrderByUserEmail)
+router.get("/order-with-review/:email", OrderController.getOrdersWithReviewsByUserEmail)
+router.get('/reviews/get-all-reviews', getAllReview);
+router.get("/get-reviews/:productId", ReviewController.getSingleReviewByProductId)
+router.get("/reviews/:email", ReviewController.getAllReviewsByUser)
+router.put("/reviews/submitReview/:email", ReviewController.submitSingleReviewByUser);
+ 
+
 // review and rating
 router.get("/user/getReviewer/:email", getReviewByUser)
 
+// testimonial
 router.post('/gifts/uploadTestimonial', uploadTestimonial);
-router.get('/gifts/getReviews', getAllReview);
-
-router.get("/getAllReviews/:productId", getReviewByProductId)
-router.put("/order/submitReview/:email", submitReviewByUser);
 router.get('/:id/:email', getOrderInfoByProductId);
 
 // Upload & get discount and offers
 router.post('/discount', uploadADiscount)
 // router.get('/testimonials/feedback', require("../controller/getAllFeedback"));
+
 
 module.exports = router;

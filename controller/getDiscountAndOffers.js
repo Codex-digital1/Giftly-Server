@@ -3,7 +3,7 @@ const discount = require('../model/discountAndOffersSchema');
 const getDiscountAndOffers = async (req, res) => {
     // console.log('inside the getDiscountAndOffers controller');
     try {
-        const getDiscount = await discount.find();
+        const getDiscount = await discount.find().sort({ createdAt: -1 }).limit(10); 
         
         // console.log(getDiscount, 'discount data fetched successfully'); // Log fetched data
         
