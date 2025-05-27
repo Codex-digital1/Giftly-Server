@@ -47,7 +47,6 @@ const getAllOrderByUserEmail = async (req, res) => {
   try {
     const email = req.params.email;
     const allOrders = await OrderModel.find({ userEmail: email }).populate("productIds");;
-    console.log("allorders", allOrders);
     if (!allOrders) {
       return res.status(404).json({ message: "Order not found" });
     }
@@ -59,7 +58,21 @@ const getAllOrderByUserEmail = async (req, res) => {
   }
 };
 
-const getOrdersWithReviewsByUserEmail  = async (req, res) => {
+const getAllOrderWithProducts = async (req, res) => {
+  try {
+    const allOrders = await OrderModel.find().populate("productIds");;
+    if (!allOrders) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    res.status(200).json(allOrders); // Respond with the user data
+  } catch (error) {
+    console.error("Error fetching user:", error); // Log the error for debugging
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getOrdersWithReviewsByUserEmail = async (req, res) => {
   try {
     const email = req.params.email;
 
@@ -69,7 +82,7 @@ const getOrdersWithReviewsByUserEmail  = async (req, res) => {
       },
       {
         $lookup: {
-          from: "gifts", // gifts collection থেকে product info
+          from: "gifts",
           localField: "productIds",
           foreignField: "_id",
           as: "productDetails"
@@ -77,13 +90,26 @@ const getOrdersWithReviewsByUserEmail  = async (req, res) => {
       },
       {
         $lookup: {
-          from: "reviews", // reviews collection থেকে review info
-          localField: "productIds",
-          foreignField: "productId",
+          from: "reviews",
+          let: { product_ids: "$productIds", user_email: email },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $in: ["$productId", "$$product_ids"] },
+                    { $eq: ["$userEmail", "$$user_email"] }
+                  ]
+                }
+              }
+            }
+          ],
           as: "productReviews"
         }
       }
     ]);
+
+
 
     if (!allOrders || allOrders.length === 0) {
       return res.status(404).json({ message: "Order not found" });
@@ -97,10 +123,12 @@ const getOrdersWithReviewsByUserEmail  = async (req, res) => {
 };
 
 
+
 const OrderController = {
   getSingleOrderInfoByProductId,
   getAllOrderByUserEmail,
-  getOrdersWithReviewsByUserEmail
+  getOrdersWithReviewsByUserEmail,
+  getAllOrderWithProducts
 }
 
 module.exports = OrderController;

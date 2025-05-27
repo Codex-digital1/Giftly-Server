@@ -1,6 +1,7 @@
 const Feedback = require("../model/feedbackModal");
 const orderModelSchema = require("../model/orderModelSchema");
 const orderModel = require("../model/orderModelSchema");
+const ReviewsModel = require("../model/reviewModelSchema");
 const User = require("../model/userSchema");
 
 
@@ -141,7 +142,7 @@ exports.submitReviewByUser = async (req, res) => {
 exports.getAllReview = async (req, res) => {
     try {
         // Fetch only documents where review.comment is not null
-        const data = await orderModelSchema.find({ "review.comment": { $ne: null } });
+        const data = await ReviewsModel.find();
 
         if (!data || data.length === 0) {
             return res.status(404).json({ message: "No reviews found" });
@@ -156,12 +157,12 @@ exports.getAllReview = async (req, res) => {
 
 exports.uploadTestimonial = async (req, res) => {
     try {
-        const { ReviewerName, ReviewerProfileImage, comment, rating, reviewedAt, _id } = req?.body;
+        const { ReviewerName, ReviewerProfileImage, comment, rating, reviewedAt, ReviewId } = req?.body;
         const testimonial = {
-            ReviewerName, ReviewerProfileImage, comment, rating, reviewedAt, ReviewerId: _id
+            ReviewerName, ReviewerProfileImage, comment, rating, reviewedAt, ReviewId
         }
 
-        const existingTestimonial = await Feedback.findOne({ ReviewerId: _id });
+        const existingTestimonial = await Feedback.findOne({ ReviewId });
         // console.log("167", existingTestimonial)
         if (existingTestimonial) {
             return res.status(400).json({ message: "This testimonial has already been uploaded." });

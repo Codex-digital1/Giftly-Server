@@ -24,7 +24,7 @@ const feedbackSchema = new mongoose.Schema({
     type: Date,
     default: null
   },
-  ReviewerId: {
+  ReviewId: {
     type: String,
     default: null
   }

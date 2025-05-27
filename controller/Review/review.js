@@ -36,16 +36,12 @@ const submitSingleReviewByUser = async (req, res) => {
     const order = await OrderModel.findOne({
       userEmail: userEmail,
       tran_id: tran_id,
-      // order_status: "Delivered",
     });
 
     if (!order) {
-      return res
-        .status(404)
-        .json({
-          message:
-            "Delivered order not found with this transaction ID and email",
-        });
+      return res.status(404).json({
+        message: "Delivered order not found with this transaction ID and email",
+      });
     }
 
     // Step 2: Check if productId exists in the order
@@ -56,32 +52,50 @@ const submitSingleReviewByUser = async (req, res) => {
         .json({ message: "This product is not part of the delivered order" });
     }
 
-    // Step 3: Save review in ReviewsModel
-    const newReview = new ReviewsModel({
-      productId,
-      userEmail,
-      ReviewerName,
-      ReviewerProfileImage,
-      review: {
-        rating,
-        comment,
-        reviewedAt: new Date(),
-      },
-    });
-    await newReview.save();
-    return res.status(200).json({
-      message: "Review submitted successfully!",
-      review: newReview,
-    });
+    // Step 3: Check if review already exists
+    const existingReview = await ReviewsModel.findOne({ productId, userEmail });
+
+    if (existingReview) {
+      // Update existing review
+      existingReview.review.rating = rating;
+      existingReview.review.comment = comment;
+      existingReview.review.reviewedAt = new Date();
+      await existingReview.save();
+
+      return res.status(200).json({
+        message: "Review updated successfully!",
+        review: existingReview,
+      });
+    } else {
+      // Create new review
+      const newReview = new ReviewsModel({
+        productId,
+        userEmail,
+        ReviewerName,
+        ReviewerProfileImage,
+        review: {
+          rating,
+          comment,
+          reviewedAt: new Date(),
+        },
+      });
+      await newReview.save();
+
+      return res.status(200).json({
+        message: "Review submitted successfully!",
+        review: newReview,
+      });
+    }
   } catch (error) {
     console.error("Error submitting review:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
 const getSingleReviewByProductId = async (req, res) => {
   try {
     const productId = req?.params?.productId;
-    const ReviewedProduct = await ReviewsModel.findOne({ productId });
+    const ReviewedProduct = await ReviewsModel.find({ productId });
 
     if (!ReviewedProduct) {
       return res.status(404).json({ message: "reviews not found" });

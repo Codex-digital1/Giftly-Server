@@ -109,9 +109,11 @@ router.get("/user/getReceiver/:receiverName", getReceiverData);
 
 // review related routes (new)
 // router.post('/get-order-product/:productId', OrderController.getSingleOrderInfoByProductId);
+router.get("/all-order/products", OrderController.getAllOrderWithProducts)
 router.get("/order/:email", OrderController.getAllOrderByUserEmail)
 router.get("/order-with-review/:email", OrderController.getOrdersWithReviewsByUserEmail)
-router.get("/single-review/:productId", ReviewController.getSingleReviewByProductId)
+router.get('/reviews/get-all-reviews', getAllReview);
+router.get("/get-reviews/:productId", ReviewController.getSingleReviewByProductId)
 router.get("/reviews/:email", ReviewController.getAllReviewsByUser)
 router.put("/reviews/submitReview/:email", ReviewController.submitSingleReviewByUser);
  
@@ -119,11 +121,11 @@ router.put("/reviews/submitReview/:email", ReviewController.submitSingleReviewBy
 // review and rating
 router.get("/user/getReviewer/:email", getReviewByUser)
 
+// testimonial
 router.post('/gifts/uploadTestimonial', uploadTestimonial);
-router.get('/gifts/getReviews', getAllReview);
 
-router.get("/getAllReviews/:productId", getReviewByProductId)
-router.put("/order/submitReview/:email", submitReviewByUser);
+// router.get("/getAllReviews/:productId", getReviewByProductId)
+// router.put("/order/submitReview/:email", submitReviewByUser);
 router.get('/:id/:email', getOrderInfoByProductId);
 
 // Upload & get discount and offers
