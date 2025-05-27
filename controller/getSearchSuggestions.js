@@ -14,9 +14,8 @@ const getSearchSuggestions = async (req, res) => {
                     { description: { $regex: query, $options: 'i' } }
                 ]
             },
-            { giftName: 1, _id: 1 } // Only return relevant fields
-        ).limit(8); // Limit the number of suggestions
-// console.log(suggestions);
+            { giftName: 1, _id: 1 }
+        ).limit(8); 
         res.status(200).json({
             data: suggestions,
             success: true,

@@ -1,7 +1,6 @@
 const giftModel = require("../model/giftModelSchema");
 
 const updateAGift = async (req, res) => {
-  console.log(req.body, 'inside the updateAGift');
   const updateData = Object.keys(req.body).reduce((acc, key) => {
  
     if (key === 'images') {

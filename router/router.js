@@ -108,7 +108,6 @@ router.get("/user/getReceiver/:receiverName", getReceiverData);
 
 
 // review related routes (new)
-// router.post('/get-order-product/:productId', OrderController.getSingleOrderInfoByProductId);
 router.get("/all-order/products", OrderController.getAllOrderWithProducts)
 router.get("/order/:email", OrderController.getAllOrderByUserEmail)
 router.get("/order-with-review/:email", OrderController.getOrdersWithReviewsByUserEmail)
@@ -123,9 +122,6 @@ router.get("/user/getReviewer/:email", getReviewByUser)
 
 // testimonial
 router.post('/gifts/uploadTestimonial', uploadTestimonial);
-
-// router.get("/getAllReviews/:productId", getReviewByProductId)
-// router.put("/order/submitReview/:email", submitReviewByUser);
 router.get('/:id/:email', getOrderInfoByProductId);
 
 // Upload & get discount and offers

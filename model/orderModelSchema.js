@@ -13,18 +13,6 @@ const orderSchema = new mongoose.Schema(
         ref: "gifts",
       },
     ],
-    product_name: {
-      type: String,
-      required: true,
-    },
-    product_brand: {
-      type: String,
-      required: true,
-    },
-    product_image: {
-      type: [String],
-      required: true,
-    },
     userName: {
       type: String,
       required: true,
@@ -41,30 +29,6 @@ const orderSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    // // Review Start
-    // review: [
-    //   {
-    //     type: {
-    //       rating: {
-    //         type: Number,
-    //         min: 1,
-    //         max: 5,
-    //         // required: function () { return this.order_status === 'Delivered'; },
-    //         default: null,
-    //       },
-    //       comment: {
-    //         type: String,
-    //         default: null,
-    //       },
-    //       reviewedAt: {
-    //         type: Date,
-    //         default: null,
-    //       },
-    //     },
-    //     default: {},
-    //   },
-    // ],
-    // Review End
     payment_status: {
       type: String,
       enum: ["Pending", "Success", "Failed"],
@@ -85,34 +49,6 @@ const orderSchema = new mongoose.Schema(
     },
     wrap: String,
     message: String,
-    // review: {
-    //   type: {
-    //     rating: {
-    //       type: Number,
-    //       min: 1,
-    //       max: 5,
-    //       default: null
-    //     },
-    //     comment: {
-    //       type: String,
-    //       default: null
-    //     },
-    //     ReviewerName: {
-    //       type: String,
-    //       default: null
-    //     },
-    //     ReviewerProfileImage: {
-    //       type: String,
-    //       default: null
-    //     },
-
-    //     reviewedAt: {
-    //       type: Date,
-    //       default: null
-    //     }
-    //   },
-    //   default: {},
-    // }
   },
   {
     timestamps: true,

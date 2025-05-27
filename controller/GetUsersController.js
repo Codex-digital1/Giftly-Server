@@ -1,5 +1,4 @@
 const Feedback = require("../model/feedbackModal");
-const orderModelSchema = require("../model/orderModelSchema");
 const orderModel = require("../model/orderModelSchema");
 const ReviewsModel = require("../model/reviewModelSchema");
 const User = require("../model/userSchema");
@@ -142,7 +141,7 @@ exports.submitReviewByUser = async (req, res) => {
 exports.getAllReview = async (req, res) => {
     try {
         // Fetch only documents where review.comment is not null
-        const data = await ReviewsModel.find();
+        const data = await ReviewsModel.find().populate("productId");
 
         if (!data || data.length === 0) {
             return res.status(404).json({ message: "No reviews found" });
