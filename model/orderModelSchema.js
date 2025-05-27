@@ -1,116 +1,84 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const orderSchema = new mongoose.Schema({
-  tran_id: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  productId: {
-    type: [String],
-    required: true,
-  },
-  product_name: {
-    type: String,
-    required: true,
-  },
-  product_brand: {
-    type: String,
-    required: true,
-  },
-  product_image: {
-    type: [String],
-    required: true,
-  },
-  userName: {
-    type: String,
-    required: true,
-  },
-  userEmail: {
-    type: String,
-    required: true,
-  },
-  userPhone: {
-    type: String,
-    required: true,
-  },
-  total_amount: {
-    type: Number,
-    required: true,
-  },
-  // Review Start
-  review: {
-    type: {
-      rating: {
-        type: Number,
-        min: 1,
-        max: 5,
-        // required: function () { return this.order_status === 'Delivered'; },
-        default: null,
-      },
-      comment: {
-        type: String,
-        default: null,
-      },
-      reviewedAt: {
-        type: Date,
-        default: null,
-      },
+const orderSchema = new mongoose.Schema(
+  {
+    tran_id: {
+      type: String,
+      required: true,
+      unique: true,
     },
-    default: {},
-  },
-  // Review End
-  payment_status: {
-    type: String,
-    enum: ["Pending", "Success", "Failed"],
-    default: "Pending",
-  },
-  order_status: {
-    type: String,
-    enum: ['Pending', 'Processing', 'Shipping', 'Delivered'],
-    default: 'Pending',
-  },
-  isShedule: {
-    type: Boolean,
-    default: false,
-  },
-  scheduleDate: {
-    type: String,
-    default: null,
-  },
-  wrap: String,
-  message: String,
-  review: {
-    type: {
-      rating: {
-        type: Number,
-        min: 1,
-        max: 5,
-        default: null
-      },
-      comment: {
-        type: String,
-        default: null
-      },
-      ReviewerName: {
-        type: String,
-        default: null
-      },
-      ReviewerProfileImage: {
-        type: String,
-        default: null
-      },
 
-      reviewedAt: {
-        type: Date,
-        default: null
-      }
+    productIds: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product",
+        required: true,
+      },
+    ],
+
+    userName: {
+      type: String,
+      required: true,
     },
-    default: {},
+    userEmail: {
+      type: String,
+      required: true,
+    },
+    userPhone: {
+      type: String,
+      required: true,
+    },
+    total_amount: {
+      type: Number,
+      required: true,
+    },
+
+    // Optional: review system (multiple reviews for multiple products)
+    reviews: [
+      {
+        productId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Product",
+        },
+        rating: {
+          type: Number,
+          min: 1,
+          max: 5,
+        },
+        comment: String,
+        ReviewerName: String,
+        ReviewerProfileImage: String,
+        reviewedAt: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
+
+    payment_status: {
+      type: String,
+      enum: ["Pending", "Success", "Failed"],
+      default: "Pending",
+    },
+    order_status: {
+      type: String,
+      enum: ["Pending", "Processing", "Shipping", "Delivered"],
+      default: "Pending",
+    },
+    isShedule: {
+      type: Boolean,
+      default: false,
+    },
+    scheduleDate: {
+      type: String,
+      default: null,
+    },
+    wrap: String,
+    message: String,
+  },
+  {
+    timestamps: true,
   }
+);
 
-}, {
-  timestamps: true
-});
-
-module.exports = mongoose.model('Order', orderSchema);
+module.exports = mongoose.model("Order", orderSchema);

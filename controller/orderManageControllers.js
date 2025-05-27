@@ -8,6 +8,7 @@ const Order = require("../model/orderModelSchema");
 const orderManage = async (req, res) => {
   try {
     const orders = await Order.find();
+    console.log(orders);
     return res.status(200).json(orders);
   } catch (error) {
     console.error("Error orderManage:", error);
@@ -23,11 +24,10 @@ const orderManage = async (req, res) => {
  * @Access Private
  */
 const updateOrderStatus = async (req, res) => {
-
   // Get Value From Body
-  const {status} = req.body
+  const { status } = req.body;
   // Get Value From Params
-  const {id} = req.params
+  const { id } = req.params;
 
   try {
     // Get Order By ID
@@ -47,21 +47,23 @@ const updateOrderStatus = async (req, res) => {
       order.sheduleDate = "";
     }
 
-
     await order.save();
-    console.log(52,order._id,order.userEmail ,status || order.order_status);
-    const { notificationClass} = require('../index');
-        // Check if newGiftNotification exists before calling it
-        if (notificationClass?.updateOrderStatusNotification) {
-          // orderId, userId, newStatus
-            await notificationClass.updateOrderStatusNotification(order._id,order.userEmail ,status || order.order_status);
-        } else {
-            console.log("newGiftNotification method not found");
-        }
+    console.log(52, order._id, order.userEmail, status || order.order_status);
+    const { notificationClass } = require("../index");
+    // Check if newGiftNotification exists before calling it
+    if (notificationClass?.updateOrderStatusNotification) {
+      // orderId, userId, newStatus
+      await notificationClass.updateOrderStatusNotification(
+        order._id,
+        order.userEmail,
+        status || order.order_status
+      );
+    } else {
+      console.log("newGiftNotification method not found");
+    }
     return res
       .status(200)
-      .json({ order, message: "Status Updated Successful", 
-        success: true });
+      .json({ order, message: "Status Updated Successful", success: true });
   } catch (error) {
     console.error("Error updateOrderStatus:", error);
     res.status(500).json({ error: error.message });
@@ -75,22 +77,24 @@ const updateOrderStatus = async (req, res) => {
  * @Access Private
  */
 const getSpecificUserOrdersList = async (req, res) => {
-
   // Get Value From Params
-  const {email} = req.params
+  const { email } = req.params;
   const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 12;
-    const skip = (page - 1) * limit;
-
+  const limit = parseInt(req.query.limit) || 12;
+  const skip = (page - 1) * limit;
 
   try {
-
     // Get Order By ID
-    const orders = await Order.find({userEmail:email}).skip(skip).limit(limit);
-// console.log(orders.length);
+    const orders = await Order.find({ userEmail: email })
+      .skip(skip)
+      .limit(limit);
+    // console.log(orders.length);
     // Validation
-    if(!orders) return res.status(404).json({message: 'Order Not Found', success:false});
-    return res.status(200).json({orders});
+    if (!orders)
+      return res
+        .status(404)
+        .json({ message: "Order Not Found", success: false });
+    return res.status(200).json({ orders });
   } catch (error) {
     console.error("Error updateOrderStatus:", error);
     res.status(500).json({ error: error.message });
